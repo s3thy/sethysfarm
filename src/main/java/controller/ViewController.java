@@ -114,8 +114,12 @@ public class ViewController
    {
       txt_ausgabe.setText("'weizen' button clicked");
       System.out.println("'weizen' button clicked");
-      meineErtraege.getData().remove(0, meineErtraege.getData().size());
-      fillBarChart("Weizen");
+      // meineErtraege.getData().remove(0, meineErtraege.getData().size());
+      meineErtraege.getData().clear();
+      if( weizenFeld.size() != 0 )
+      {
+         fillBarChart("Weizen");
+      }
       // TESTAUSGABE
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
@@ -126,8 +130,12 @@ public class ViewController
    {
       txt_ausgabe.setText("'mais' button clicked");
       System.out.println("'mais' button clicked");
-      meineErtraege.getData().remove(0, meineErtraege.getData().size());
-      fillBarChart("Mais");
+      // meineErtraege.getData().remove(0, meineErtraege.getData().size());
+      meineErtraege.getData().clear();
+      if( maisFeld.size() != 0 )
+      {
+         fillBarChart("Mais");
+      }
       // TESTAUSGABE
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
@@ -138,9 +146,16 @@ public class ViewController
    {
       txt_ausgabe.setText("'gesamt' button clicked");
       System.out.println("'gesamt' button clicked");
-      meineErtraege.getData().remove(0, meineErtraege.getData().size());
-      fillBarChart("Weizen");
-      fillBarChart("Mais");
+      // meineErtraege.getData().remove(0, meineErtraege.getData().size());
+      meineErtraege.getData().clear();
+      if( weizenFeld.size() != 0 )
+      {
+         fillBarChart("Weizen");
+      }
+      if( maisFeld.size() != 0 )
+      {
+         fillBarChart("Mais");
+      }
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
    }
 
@@ -161,6 +176,9 @@ public class ViewController
       // TESTAUSGABE
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
+      meineErtraege.getData().clear();
+      fillBarChart("Weizen");
+      fillBarChart("Mais");
    }
 
    private void saeePflanzen(ActionEvent event)
