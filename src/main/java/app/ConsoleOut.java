@@ -12,6 +12,7 @@ public class ConsoleOut
    {
       new ErstelleDaten().createFarm();
 
+      /*
       weizenFeld.get(0).setHoehe(101.0);
       System.out.println(weizenFeld.get(0).getHoehe());
       System.out.println(weizenFeld.size());
@@ -19,6 +20,7 @@ public class ConsoleOut
       new ErnteMaschine().arbeiten(weizenFeld);
       new SaeMaschine().arbeiten(weizenFeld, "wEizEn");
       System.out.println(weizenFeld.size());
+      */
 /*
       System.out.println();
 

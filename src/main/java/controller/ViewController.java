@@ -56,7 +56,6 @@ public class ViewController
       btn_opensql.setOnAction(this::openSql);
       btn_savecsv.setOnAction(this::saveCsv);
       btn_savesql.setOnAction(this::saveSql);
-
    }
 
    private void fillBarChart(String pflanzenart)

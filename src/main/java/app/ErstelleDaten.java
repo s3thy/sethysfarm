@@ -6,7 +6,6 @@ import java.util.List;
 import nutzpflanzen.Mais;
 import nutzpflanzen.Pflanze;
 import nutzpflanzen.Spezifikationen;
-import nutzpflanzen.Weizen;
 
 public class ErstelleDaten
 {
@@ -16,22 +15,23 @@ public class ErstelleDaten
 
    public void createFarm()
    {
-      System.out.println();
-      System.out.println("---------------------------");
-      System.out.println("Sethys Farm * GUI - Version");
-      System.out.println("---------------------------");
-
       int feldgroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();
-      double hoehe;
+      int random;
 
-      for( int i = 0; i < feldgroesse; i++ )
+      random = (int) (Math.random() * feldgroesse + 1);
+      for( int i = 0; i < random; i++ )
       {
-         hoehe = (Math.random() * 5) + 5;
+         double hoehe = (Math.random() * 5) + 5;
          maisFeld.add(new Mais(hoehe));
-         hoehe = (Math.random() * 5) + 5;
-         weizenFeld.add(new Weizen(hoehe));
-
       }
+
+      random = (int) (Math.random() * feldgroesse + 1);
+      for( int i = 0; i < random; i++ )
+      {
+         double hoehe = (Math.random() * 5) + 5;
+         weizenFeld.add(new Mais(hoehe));
+      }
+
       System.out.println();
       System.out.println("Maisfeld hat " + maisFeld.size() + " Maiskölbchen");
       System.out.println("Weizenfeld hat " + weizenFeld.size() + " Weizendinger");
