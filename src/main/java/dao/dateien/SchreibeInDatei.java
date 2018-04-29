@@ -1,4 +1,4 @@
-package dao;
+package dao.dateien;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import nutzpflanzen.Pflanze;
 
-import static dao.DateiConfig.datei;
+import static dao.dateien.DateiConfig.datei;
 
 public class SchreibeInDatei
 {

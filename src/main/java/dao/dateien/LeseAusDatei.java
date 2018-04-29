@@ -1,9 +1,9 @@
-package dao;
+package dao.dateien;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 
-import static dao.DateiConfig.datei;
+import static dao.dateien.DateiConfig.datei;
 
 public class LeseAusDatei
 {

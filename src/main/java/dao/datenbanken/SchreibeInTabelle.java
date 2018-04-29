@@ -1,4 +1,4 @@
-package dao;
+package dao.datenbanken;
 
 public class SchreibeInTabelle
 {
