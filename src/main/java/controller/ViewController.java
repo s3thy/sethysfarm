@@ -5,13 +5,9 @@ import automaten.GiessMaschine;
 import automaten.SaeMaschine;
 import dao.dateien.LeseAusDatei;
 import dao.dateien.SchreibeInDatei;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
@@ -26,37 +22,40 @@ public class ViewController
    public Button btn_ernten;
    public Button btn_giessen;
    public Button btn_saeen;
+   public Button btn_automat;
 
    public Button btn_mais;
    public Button btn_weizen;
    public Button btn_gesamt;
 
-   public BarChart<?, ?> meineErtraege;
+   public BarChart<?, ?> barchart_ertraege;
+
    public TextArea txt_ausgabe;
    public TextArea txt_ausgabe1;
    public TextArea txt_anzahl;
+
    public Button btn_opencsv;
    public Button btn_opensql;
    public Button btn_savecsv;
    public Button btn_savesql;
-   @FXML
-   private CategoryAxis xAxis;
-   @FXML
-   private NumberAxis yAxis;
-   private ObservableList<String> pflanzenArten = FXCollections.observableArrayList();
+
+   public String clickedButton = "gesamt";
 
    public void init()
    {
       btn_ernten.setOnAction(this::erntePflanzen);
       btn_giessen.setOnAction(this::giessePflanzen);
       btn_saeen.setOnAction(this::saeePflanzen);
+
       btn_mais.setOnAction(this::showMaisStats);
       btn_weizen.setOnAction(this::showWeizenStats);
       btn_gesamt.setOnAction(this::showGesamtStats);
-      btn_opencsv.setOnAction(this::opencsv);
-      btn_opensql.setOnAction(this::opensql);
+
+      btn_opencsv.setOnAction(this::openCsv);
+      btn_opensql.setOnAction(this::openSql);
       btn_savecsv.setOnAction(this::saveCsv);
-      btn_savesql.setOnAction(this::savesql);
+      btn_savesql.setOnAction(this::saveSql);
+
    }
 
    private void fillBarChart(String pflanzenart)
@@ -73,7 +72,7 @@ public class ViewController
          }
          txt_ausgabe.setText(getMyData("mais"));
          txt_ausgabe1.setText(getMyData("weizen"));
-         meineErtraege.getData().addAll(set1);
+         barchart_ertraege.getData().addAll(set1);
       }
       if( pflanzenart.toLowerCase().equals("weizen") )
       {
@@ -84,7 +83,7 @@ public class ViewController
          }
          txt_ausgabe.setText(getMyData("mais"));
          txt_ausgabe1.setText(getMyData("weizen"));
-         meineErtraege.getData().addAll(set1);
+         barchart_ertraege.getData().addAll(set1);
       }
    }
 
@@ -110,15 +109,19 @@ public class ViewController
       return sb.toString();
    }
 
-   private void showWeizenStats(ActionEvent actionEvent)
+   private void showMaisStats(ActionEvent actionEvent)
    {
-      txt_ausgabe.setText("'weizen' button clicked");
-      System.out.println("'weizen' button clicked");
-      // meineErtraege.getData().remove(0, meineErtraege.getData().size());
-      meineErtraege.getData().clear();
-      if( weizenFeld.size() != 0 )
+      btn_mais.applyCss();
+
+      clickedButton = "mais";
+
+      txt_ausgabe.setText("'mais' button clicked");
+      System.out.println("'mais' button clicked");
+      // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
+      barchart_ertraege.getData().clear();
+      if( maisFeld.size() != 0 )
       {
-         fillBarChart("Weizen");
+         fillBarChart("Mais");
       }
       // TESTAUSGABE
       txt_ausgabe.setText(getMyData("mais"));
@@ -126,15 +129,17 @@ public class ViewController
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
    }
 
-   private void showMaisStats(ActionEvent actionEvent)
+   private void showWeizenStats(ActionEvent actionEvent)
    {
-      txt_ausgabe.setText("'mais' button clicked");
-      System.out.println("'mais' button clicked");
-      // meineErtraege.getData().remove(0, meineErtraege.getData().size());
-      meineErtraege.getData().clear();
-      if( maisFeld.size() != 0 )
+      clickedButton = "weizen";
+
+      txt_ausgabe.setText("'weizen' button clicked");
+      System.out.println("'weizen' button clicked");
+      // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
+      barchart_ertraege.getData().clear();
+      if( weizenFeld.size() != 0 )
       {
-         fillBarChart("Mais");
+         fillBarChart("Weizen");
       }
       // TESTAUSGABE
       txt_ausgabe.setText(getMyData("mais"));
@@ -144,10 +149,13 @@ public class ViewController
 
    private void showGesamtStats(ActionEvent actionEvent)
    {
+      clickedButton = "gesamt";
+
+
       txt_ausgabe.setText("'gesamt' button clicked");
       System.out.println("'gesamt' button clicked");
-      // meineErtraege.getData().remove(0, meineErtraege.getData().size());
-      meineErtraege.getData().clear();
+      // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
+      barchart_ertraege.getData().clear();
       if( weizenFeld.size() != 0 )
       {
          fillBarChart("Weizen");
@@ -159,24 +167,28 @@ public class ViewController
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
    }
 
-   private void erntePflanzen(ActionEvent event)
-   {
-      new ErnteMaschine().arbeiten(maisFeld);
-      new ErnteMaschine().arbeiten(weizenFeld);
-      // TESTAUSGABE
-      txt_ausgabe.setText(getMyData("mais"));
-      txt_ausgabe1.setText(getMyData("weizen"));
-      txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
-   }
-
    private void giessePflanzen(ActionEvent event)
    {
-      new GiessMaschine().arbeiten(maisFeld);
-      new GiessMaschine().arbeiten(weizenFeld);
+      switch( clickedButton )
+      {
+         case "mais":
+            new GiessMaschine().arbeiten(maisFeld);
+            break;
+
+         case "weizen":
+            new GiessMaschine().arbeiten(weizenFeld);
+            break;
+
+         case "gesamt":
+            new GiessMaschine().arbeiten(maisFeld);
+            new GiessMaschine().arbeiten(weizenFeld);
+            break;
+      }
+
       // TESTAUSGABE
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
-      meineErtraege.getData().clear();
+      barchart_ertraege.getData().clear();
       fillBarChart("Weizen");
       fillBarChart("Mais");
    }
@@ -194,16 +206,59 @@ public class ViewController
       }
       */
 
-      new SaeMaschine().arbeiten(maisFeld, "mais");
-      new SaeMaschine().arbeiten(weizenFeld, "weizen");
+      switch( clickedButton )
+      {
+         case "mais":
+            new SaeMaschine().arbeiten(maisFeld, "mais");
+            break;
+
+         case "weizen":
+            new SaeMaschine().arbeiten(weizenFeld, "weizen");
+            break;
+
+         case "gesamt":
+            new SaeMaschine().arbeiten(maisFeld, "mais");
+            new SaeMaschine().arbeiten(weizenFeld, "weizen");
+            break;
+      }
 
       // TESTAUSGABE
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
+      barchart_ertraege.getData().clear();
+      fillBarChart("Weizen");
+      fillBarChart("Mais");
    }
 
-   private void opencsv(ActionEvent actionEvent)
+   private void erntePflanzen(ActionEvent event)
+   {
+      switch( clickedButton )
+      {
+         case "mais":
+            new ErnteMaschine().arbeiten(maisFeld);
+            break;
+
+         case "weizen":
+            new ErnteMaschine().arbeiten(weizenFeld);
+            break;
+
+         case "gesamt":
+            new ErnteMaschine().arbeiten(maisFeld);
+            new ErnteMaschine().arbeiten(weizenFeld);
+            break;
+      }
+
+      // TESTAUSGABE
+      txt_ausgabe.setText(getMyData("mais"));
+      txt_ausgabe1.setText(getMyData("weizen"));
+      txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
+      barchart_ertraege.getData().clear();
+      fillBarChart("Weizen");
+      fillBarChart("Mais");
+   }
+
+   private void openCsv(ActionEvent actionEvent)
    {
       try
       {
@@ -230,12 +285,12 @@ public class ViewController
       }
    }
 
-   private void opensql(ActionEvent actionEvent)
+   private void openSql(ActionEvent actionEvent)
    {
       // TODO
    }
 
-   private void savesql(ActionEvent actionEvent)
+   private void saveSql(ActionEvent actionEvent)
    {
       // TODO
    }
