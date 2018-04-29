@@ -1,5 +1,6 @@
 package controller;
 
+import app.ErstelleDaten;
 import automaten.ErnteMaschine;
 import automaten.GiessMaschine;
 import automaten.SaeMaschine;
@@ -9,12 +10,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import nutzpflanzen.Pflanze;
 
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
+import static dao.dateien.DateiConfig.datei;
 
 public class ViewController
 {
@@ -56,6 +59,26 @@ public class ViewController
       btn_opensql.setOnAction(this::openSql);
       btn_savecsv.setOnAction(this::saveCsv);
       btn_savesql.setOnAction(this::saveSql);
+
+      if( !datei.exists() )
+      {
+
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         alert.setTitle("ACHTUNG");
+         alert.setHeaderText("Datei nicht vorhanden");
+         alert.setContentText("Pflanzen werden zufällig generiert");
+         alert.showAndWait();
+
+
+         new ErstelleDaten().createFarm();
+         txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
+         txt_ausgabe.setText(getMyData("mais"));
+         txt_ausgabe1.setText(getMyData("weizen"));
+         barchart_ertraege.getData().clear();
+         fillBarChart("Weizen");
+         fillBarChart("Mais");
+
+      }
    }
 
    private void fillBarChart(String pflanzenart)

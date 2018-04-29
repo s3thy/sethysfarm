@@ -9,5 +9,5 @@ public class DateiConfig
    static String endung = ".csv";
    static String fullpath = pfad + dateiname + endung;
 
-   static File datei = new File(fullpath);
+   public static File datei = new File(fullpath);
 }
