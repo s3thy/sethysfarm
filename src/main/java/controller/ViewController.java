@@ -33,6 +33,7 @@ public class ViewController
    public TextArea txt_ausgabe;
    public TextArea txt_ausgabe1;
    public TextArea txt_anzahl;
+   public TextArea txt_console;
 
    public Button btn_opencsv;
    public Button btn_opensql;
@@ -70,8 +71,6 @@ public class ViewController
             lfn++;
             set1.getData().add(new XYChart.Data("Mais_" + lfn, pflanze.getHoehe()));
          }
-         txt_ausgabe.setText(getMyData("mais"));
-         txt_ausgabe1.setText(getMyData("weizen"));
          barchart_ertraege.getData().addAll(set1);
       }
       if( pflanzenart.toLowerCase().equals("weizen") )
@@ -81,8 +80,6 @@ public class ViewController
             lfn++;
             set1.getData().add(new XYChart.Data("Weizen_" + lfn, pflanze.getHoehe()));
          }
-         txt_ausgabe.setText(getMyData("mais"));
-         txt_ausgabe1.setText(getMyData("weizen"));
          barchart_ertraege.getData().addAll(set1);
       }
    }
@@ -111,12 +108,8 @@ public class ViewController
 
    private void showMaisStats(ActionEvent actionEvent)
    {
-      btn_mais.applyCss();
-
       clickedButton = "mais";
 
-      txt_ausgabe.setText("'mais' button clicked");
-      System.out.println("'mais' button clicked");
       // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
       barchart_ertraege.getData().clear();
       if( maisFeld.size() != 0 )
@@ -124,6 +117,8 @@ public class ViewController
          fillBarChart("Mais");
       }
       // TESTAUSGABE
+      txt_console.setText("'mais' button clicked");
+      System.out.println("'mais' button clicked");
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
@@ -133,8 +128,6 @@ public class ViewController
    {
       clickedButton = "weizen";
 
-      txt_ausgabe.setText("'weizen' button clicked");
-      System.out.println("'weizen' button clicked");
       // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
       barchart_ertraege.getData().clear();
       if( weizenFeld.size() != 0 )
@@ -142,6 +135,8 @@ public class ViewController
          fillBarChart("Weizen");
       }
       // TESTAUSGABE
+      txt_console.setText("'weizen' button clicked");
+      System.out.println("'weizen' button clicked");
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
@@ -151,9 +146,6 @@ public class ViewController
    {
       clickedButton = "gesamt";
 
-
-      txt_ausgabe.setText("'gesamt' button clicked");
-      System.out.println("'gesamt' button clicked");
       // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
       barchart_ertraege.getData().clear();
       if( weizenFeld.size() != 0 )
@@ -164,33 +156,43 @@ public class ViewController
       {
          fillBarChart("Mais");
       }
+
+      // TESTAUSGABE
+      txt_console.setText("'gesamt' button clicked");
+      System.out.println("'gesamt' button clicked");
+      txt_ausgabe.setText(getMyData("mais"));
+      txt_ausgabe1.setText(getMyData("weizen"));
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
+
    }
 
    private void giessePflanzen(ActionEvent event)
    {
+      barchart_ertraege.getData().clear();
+
       switch( clickedButton )
       {
          case "mais":
             new GiessMaschine().arbeiten(maisFeld);
+            fillBarChart("Mais");
             break;
 
          case "weizen":
             new GiessMaschine().arbeiten(weizenFeld);
+            fillBarChart("Weizen");
             break;
 
          case "gesamt":
             new GiessMaschine().arbeiten(maisFeld);
             new GiessMaschine().arbeiten(weizenFeld);
+            fillBarChart("Weizen");
+            fillBarChart("Mais");
             break;
       }
 
       // TESTAUSGABE
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
-      barchart_ertraege.getData().clear();
-      fillBarChart("Weizen");
-      fillBarChart("Mais");
    }
 
    private void saeePflanzen(ActionEvent event)
@@ -206,19 +208,25 @@ public class ViewController
       }
       */
 
+      barchart_ertraege.getData().clear();
+
       switch( clickedButton )
       {
          case "mais":
             new SaeMaschine().arbeiten(maisFeld, "mais");
+            fillBarChart("Mais");
             break;
 
          case "weizen":
             new SaeMaschine().arbeiten(weizenFeld, "weizen");
+            fillBarChart("Weizen");
             break;
 
          case "gesamt":
             new SaeMaschine().arbeiten(maisFeld, "mais");
             new SaeMaschine().arbeiten(weizenFeld, "weizen");
+            fillBarChart("Weizen");
+            fillBarChart("Mais");
             break;
       }
 
@@ -226,26 +234,29 @@ public class ViewController
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
-      barchart_ertraege.getData().clear();
-      fillBarChart("Weizen");
-      fillBarChart("Mais");
    }
 
    private void erntePflanzen(ActionEvent event)
    {
+      barchart_ertraege.getData().clear();
+
       switch( clickedButton )
       {
          case "mais":
             new ErnteMaschine().arbeiten(maisFeld);
+            fillBarChart("Mais");
             break;
 
          case "weizen":
             new ErnteMaschine().arbeiten(weizenFeld);
+            fillBarChart("Weizen");
             break;
 
          case "gesamt":
             new ErnteMaschine().arbeiten(maisFeld);
             new ErnteMaschine().arbeiten(weizenFeld);
+            fillBarChart("Weizen");
+            fillBarChart("Mais");
             break;
       }
 
@@ -253,9 +264,6 @@ public class ViewController
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
-      barchart_ertraege.getData().clear();
-      fillBarChart("Weizen");
-      fillBarChart("Mais");
    }
 
    private void openCsv(ActionEvent actionEvent)
@@ -267,7 +275,7 @@ public class ViewController
       catch(Exception e)
       {
          e.printStackTrace();
-         txt_ausgabe.setText(e.toString());
+         txt_console.setText(e.toString());
       }
    }
 
@@ -276,12 +284,14 @@ public class ViewController
       if( maisFeld.size() > 0 )
       {
          new SchreibeInDatei().schreibeCsv(maisFeld);
-         System.out.println("Maiskölbchen in CSV geschrieben");
+         txt_console.setText("Maiskölbchen in CSV festgehalten");
+         System.out.println("Maiskölbchen in CSV festgehalten");
       }
       if( weizenFeld.size() > 0 )
       {
          new SchreibeInDatei().schreibeCsv(weizenFeld);
-         System.out.println("Weizenhalme in CSV geschrieben");
+         txt_console.setText("Weizenhalme in CSV festgehalten");
+         System.out.println("Weizenhalme in CSV festgehalten");
       }
    }
 
