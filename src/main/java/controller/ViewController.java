@@ -18,6 +18,7 @@ import nutzpflanzen.Pflanze;
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
+import static funktionen.Werkzeuge.format;
 
 public class ViewController
 {
@@ -31,7 +32,7 @@ public class ViewController
    public Button btn_weizen;
    public Button btn_gesamt;
 
-   public BarChart<?, ?> barchart_ertraege;
+   public BarChart<String, Double> barchart_ertraege;
 
    public TextArea txt_ausgabe;
    public TextArea txt_ausgabe1;
@@ -43,9 +44,9 @@ public class ViewController
    public Button btn_savecsv;
    public Button btn_savesql;
 
-   public String clickedButton = "gesamt";
+   private String clickedButton = "gesamt";
 
-   public void init()
+   void init()
    {
       btn_ernten.setOnAction(this::erntePflanzen);
       btn_giessen.setOnAction(this::giessePflanzen);
@@ -113,16 +114,17 @@ public class ViewController
       {
          for( Pflanze pflanze : maisFeld )
          {
-            sb.append(pflanze.getClass() + ", " + pflanze.getHoehe());
-            sb.append("\n");
+            //String kolbenName = pflanze.getClass().toString().substring(19,pflanze.getClass().toString().length());
+            //sb.append(pflanze.getClass()).append(", ").append(pflanze.getHoehe());
+            sb.append("Mais").append(", ").append(format(pflanze.getHoehe())).append("cm").append("\n");
          }
       }
       if( pflanzenart.toLowerCase().equals("weizen") )
       {
          for( Pflanze pflanze : weizenFeld )
          {
-            sb.append(pflanze.getClass() + ", " + pflanze.getHoehe());
-            sb.append("\n");
+            //tring halmName = pflanze.getClass().toString().substring(19,pflanze.getClass().toString().length());
+            sb.append("Weizen").append(", ").append(format(pflanze.getHoehe())).append("cm").append("\n");
          }
       }
       return sb.toString();
