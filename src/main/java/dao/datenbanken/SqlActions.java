@@ -11,12 +11,16 @@ public class SqlActions
    String user = "sethy";
    String pw = "sethy";
 
+   Connection myConn = null;
+   Statement myStmt = null;
+   ResultSet rs = null;
+
    public void buildConnexion()
    {
       try
       {
-         Connection myConn = DriverManager.getConnection(url, user, pw);
-         Statement myStmt = myConn.createStatement();
+         myConn = DriverManager.getConnection(url, user, pw);
+         myStmt = myConn.createStatement();
       }
       catch(Exception exc)
       {
@@ -29,9 +33,9 @@ public class SqlActions
 
       try
       {
-         Connection myConn = DriverManager.getConnection(url, user, pw);
-         Statement myStmt = myConn.createStatement();
-         ResultSet rs = myStmt.executeQuery(
+         myConn = DriverManager.getConnection(url, user, pw);
+         myStmt = myConn.createStatement();
+         rs = myStmt.executeQuery(
                "CREATE SCHEMA 'Sethys_Farm' " +
                "CREATE TABLE 'Sethys_Farm'.'MeinePflanzen' ( " +
                "'idMeinePflanzen'' INT NOT NULL, " +
@@ -51,15 +55,15 @@ public class SqlActions
    {
       try
       {
-         Connection myConn = DriverManager.getConnection(url, user, pw);
-         Statement myStmt = myConn.createStatement();
-         ResultSet myRs = myStmt.executeQuery("select * from meinePflanzen");
+         myConn = DriverManager.getConnection(url, user, pw);
+         myStmt = myConn.createStatement();
+         rs = myStmt.executeQuery("select * from meinePflanzen");
 
          int counter = 0;
-         while( myRs.next() )
+         while( rs.next() )
          {
             counter++;
-            System.out.println(counter + ". " + myRs.getString("Mais"));
+            System.out.println(counter + ". " + rs.getString("Mais"));
          }
       }
 
