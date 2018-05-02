@@ -51,6 +51,7 @@ public class ViewController
       btn_ernten.setOnAction(this::erntePflanzen);
       btn_giessen.setOnAction(this::giessePflanzen);
       btn_saeen.setOnAction(this::saeePflanzen);
+      btn_automat.setOnAction(this::starteAlleAutomaten);
 
       btn_mais.setOnAction(this::showMaisStats);
       btn_weizen.setOnAction(this::showWeizenStats);
@@ -80,6 +81,10 @@ public class ViewController
          fillBarChart("Mais");
 
       }
+   }
+
+   private void starteAlleAutomaten(ActionEvent actionEvent)
+   {
    }
 
    private void fillBarChart(String pflanzenart)
