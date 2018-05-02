@@ -1,16 +1,59 @@
 package app;
 
-import automaten.ErnteMaschine;
-import automaten.SaeMaschine;
-import nutzpflanzen.PflanzenKontrolle;
-
-import static app.ErstelleDaten.weizenFeld;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 public class ConsoleOut
 {
    public static void main(String[] args)
    {
       new ErstelleDaten().createFarm();
+
+      String url = "jdbc:mysql://localhost:3306/SethysFarm";
+      String user = "sethy";
+      String pw = "sethy";
+
+      Connection myConn = null;
+      Statement statement = null;
+      ResultSet resultSet = null;
+
+      String createTable = "CREATE TABLE IF NOT EXISTS meinePflanzen (\n"
+                        + "	PflanzenID integer PRIMARY KEY,\n"
+                        + "	Pflanzenart text NOT NULL,\n"
+                        + "	Hoehe real\n"
+                        + ");";
+
+      String insertPlants = "INSERT INTO SethysFarm.meinePflanzen (PflanzenID, Pflanzenart, Hoehe) VALUES "
+                            + "(1, 'Mais', 9.54);";
+
+
+      try
+      {
+         myConn = DriverManager.getConnection(url, user, pw);
+         statement = myConn.createStatement();
+
+         statement.execute(createTable);
+         statement.execute(insertPlants);
+      }
+      catch(Exception exc)
+      {
+         exc.printStackTrace();
+      }
+      finally
+      {
+         if( myConn != null )
+         {
+            try
+            {
+               myConn.close();
+            }
+            catch(Exception e)
+            {
+            }
+         }
+      }
 
       /*
       weizenFeld.get(0).setHoehe(101.0);
