@@ -2,6 +2,7 @@ package app;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
@@ -18,21 +19,32 @@ public class ConsoleOut
       Connection myConn = null;
       Statement statement = null;
       ResultSet resultSet = null;
+      PreparedStatement ps = null;
 
       String createTable = "CREATE TABLE IF NOT EXISTS meinePflanzen (\n"
-                        + "	PflanzenID integer PRIMARY KEY,\n"
-                        + "	Pflanzenart text NOT NULL,\n"
-                        + "	Hoehe real\n"
-                        + ");";
+                           + "	PflanzenID integer PRIMARY KEY,\n"
+                           + "	Pflanzenart text NOT NULL,\n"
+                           + "	Hoehe real\n"
+                           + ");";
 
       String insertPlants = "INSERT INTO SethysFarm.meinePflanzen (PflanzenID, Pflanzenart, Hoehe) VALUES "
                             + "(1, 'Mais', 9.54);";
 
+      String preparedStmt = "SELECT PflanzenID FROM SethysFarm.meinePflanzen WHERE Pflanzenart=? AND Hoehe=?";
 
       try
       {
          myConn = DriverManager.getConnection(url, user, pw);
          statement = myConn.createStatement();
+         ps = myConn.prepareStatement(preparedStmt);
+
+         ps.setDouble(1, 6.58);
+         ps.setDouble(2, 9.87);
+         resultSet = ps.executeQuery();
+         while( resultSet.next() )
+         {
+            System.out.println(resultSet.getString(1) + "\n" + resultSet.getDouble(2));
+         }
 
          statement.execute(createTable);
          statement.execute(insertPlants);
