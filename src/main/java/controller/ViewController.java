@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import app.ErstelleDaten;
 import automaten.ErnteMaschine;
 import automaten.GiessMaschine;
@@ -13,6 +16,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import nutzpflanzen.Pflanze;
 
 import static app.ErstelleDaten.maisFeld;
@@ -27,23 +31,19 @@ public class ViewController
    public Button btn_giessen;
    public Button btn_saeen;
    public Button btn_automat;
-
    public Button btn_mais;
    public Button btn_weizen;
    public Button btn_gesamt;
-
    public BarChart<String, Double> barchart_ertraege;
-
    public TextArea txt_ausgabe;
    public TextArea txt_ausgabe1;
    public TextArea txt_anzahl;
    public TextArea txt_console;
-
    public Button btn_opencsv;
    public Button btn_opensql;
    public Button btn_savecsv;
    public Button btn_savesql;
-
+   Timer timer = new Timer(true);
    private String clickedButton = "gesamt";
 
    void init()
@@ -51,7 +51,8 @@ public class ViewController
       btn_ernten.setOnAction(this::erntePflanzen);
       btn_giessen.setOnAction(this::giessePflanzen);
       btn_saeen.setOnAction(this::saeePflanzen);
-      btn_automat.setOnAction(this::starteAlleAutomaten);
+      btn_automat.setOnMousePressed(this::starteAlleAutomaten);
+      btn_automat.setOnMouseReleased(this::stoppeAlleAutomaten);
 
       btn_mais.setOnAction(this::showMaisStats);
       btn_weizen.setOnAction(this::showWeizenStats);
@@ -83,8 +84,23 @@ public class ViewController
       }
    }
 
-   private void starteAlleAutomaten(ActionEvent actionEvent)
+   private void stoppeAlleAutomaten(MouseEvent mouseEvent)
    {
+      timer.cancel();
+      timer.purge();
+   }
+
+   private void starteAlleAutomaten(MouseEvent mouseEvent)
+   {
+      timer.scheduleAtFixedRate(new TimerTask()
+      {
+         @Override
+         public void run()
+         {
+            System.out.println("hallo");
+         }
+      }, 0, 500);
+
    }
 
    private void fillBarChart(String pflanzenart)
