@@ -85,6 +85,7 @@ public class ViewController
 
    Timer timer = null;
    TimerTask mytask = null;
+   int zaehler=0;
 
    private void stoppeAlleAutomaten(MouseEvent mouseEvent)
    {
@@ -103,7 +104,8 @@ public class ViewController
          public void run()
          {
             {
-               System.out.println("hallo");
+               zaehler++;
+               System.out.println(zaehler);
             }
          }
       };

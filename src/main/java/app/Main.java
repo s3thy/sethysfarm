@@ -26,6 +26,7 @@ public class Main extends Application
       Scene scene = new Scene(root);
       primaryStage.setTitle("Sethys Farm");
       primaryStage.setScene(scene);
+      primaryStage.setResizable(false);
       primaryStage.show();
 
       scene.getStylesheets().add(getClass().getResource("/views/login.css").toExternalForm());
