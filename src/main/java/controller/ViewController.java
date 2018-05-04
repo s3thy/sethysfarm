@@ -43,7 +43,6 @@ public class ViewController
    public Button btn_opensql;
    public Button btn_savecsv;
    public Button btn_savesql;
-   Timer timer = new Timer(true);
    private String clickedButton = "gesamt";
 
    void init()
@@ -84,23 +83,31 @@ public class ViewController
       }
    }
 
+   Timer timer = null;
+   TimerTask mytask = null;
+
    private void stoppeAlleAutomaten(MouseEvent mouseEvent)
    {
+      mytask.cancel();
+      mytask = null;
       timer.cancel();
-      timer.purge();
+      timer = null;
    }
 
    private void starteAlleAutomaten(MouseEvent mouseEvent)
    {
-      timer.scheduleAtFixedRate(new TimerTask()
+      timer = new Timer(true);
+      mytask = new TimerTask()
       {
          @Override
          public void run()
          {
-            System.out.println("hallo");
+            {
+               System.out.println("hallo");
+            }
          }
-      }, 0, 500);
-
+      };
+      timer.scheduleAtFixedRate(mytask, 0, 500);
    }
 
    private void fillBarChart(String pflanzenart)
