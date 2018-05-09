@@ -36,7 +36,8 @@ public class LoginController
 
       if( user.equals("") && pwd.equals("") )
       {
-         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/viewStats.fxml"));
+         // FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/viewStats.fxml"));
+         FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/viewStatsTabelle.fxml"));
          Parent rootParent = null;
          try
          {
@@ -51,9 +52,14 @@ public class LoginController
          primaryStage.setScene(scene);
          primaryStage.show();
 
-         scene.getStylesheets().add(getClass().getResource("/views/viewStats.css").toExternalForm());
+         // CSS wird mit der FXML geladen
+         // scene.getStylesheets().add(getClass().getResource("/views/viewStats.css").toExternalForm());
 
-         ViewController viewController = loader.getController();
+         //ViewController viewController = loader.getController();
+         //viewController.init();
+
+         // Testing Table
+         ViewControllerTabelle viewController = loader.getController();
          viewController.init();
 
       }
