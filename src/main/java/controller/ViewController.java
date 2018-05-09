@@ -164,6 +164,11 @@ public class ViewController
    {
       clickedButton = "mais";
 
+      btn_weizen.getStyleClass().remove("clicked");
+      btn_gesamt.getStyleClass().remove("clicked");
+      btn_mais.getStyleClass().add("clicked");
+
+
       // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
       barchart_ertraege.getData().clear();
       if( maisFeld.size() != 0 )
@@ -182,6 +187,10 @@ public class ViewController
    {
       clickedButton = "weizen";
 
+      btn_mais.getStyleClass().remove("clicked");
+      btn_gesamt.getStyleClass().remove("clicked");
+      btn_weizen.getStyleClass().add("clicked");
+
       // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
       barchart_ertraege.getData().clear();
       if( weizenFeld.size() != 0 )
@@ -199,6 +208,10 @@ public class ViewController
    private void showGesamtStats(ActionEvent actionEvent)
    {
       clickedButton = "gesamt";
+
+      btn_mais.getStyleClass().remove("clicked");
+      btn_weizen.getStyleClass().remove("clicked");
+      btn_gesamt.getStyleClass().add("clicked");
 
       // barchart_ertraege.getData().remove(0, barchart_ertraege.getData().size());
       barchart_ertraege.getData().clear();
