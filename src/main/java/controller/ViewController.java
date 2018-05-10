@@ -75,7 +75,7 @@ public class ViewController
       {
          Alert alert = new Alert(Alert.AlertType.INFORMATION);
          alert.setTitle("ACHTUNG");
-         alert.setHeaderText("Keine CSV nicht vorhanden");
+         alert.setHeaderText("Keine CSV vorhanden");
          alert.setContentText("Pflanzen werden nun zufällig generiert");
          alert.showAndWait();
       }
