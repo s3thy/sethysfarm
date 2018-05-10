@@ -18,44 +18,6 @@ import static app.ErstelleDaten.weizenFeld;
 
 public class Funktionen
 {
-   List<Automat> kitchenAid = new ArrayList<Automat>();
-
-   Timer timer = new Timer(true);
-   TimerTask mytask = null;
-   int zaehler = 0;
-
-
-
-   public void stoppeAlleAutomaten()
-   {
-      mytask.cancel();
-      mytask = null;
-      timer.cancel();
-      timer = null;
-   }
-
-   public void starteAlleAutomaten()
-   {
-
-      kitchenAid.add(new SaeMaschine());
-      kitchenAid.add(new GiessMaschine());
-      kitchenAid.add(new ErnteMaschine());
-
-      //timer = new Timer(true);
-      mytask = new TimerTask()
-      {
-         @Override
-         public void run()
-         {
-            {
-               zaehler++;
-               System.out.println(zaehler);
-            }
-         }
-      };
-      this.timer.scheduleAtFixedRate(mytask, 0, 500);
-   }
-
    public void openSQL()
    {
       new SqlActions().readSQL();
