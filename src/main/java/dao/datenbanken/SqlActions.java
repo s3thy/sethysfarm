@@ -38,42 +38,47 @@ public class SqlActions
 
    public void writeSQL()
    {
-      int lfn = 0;
+      String dropDaBase = "DROP DATABASE IF EXISTS sethysfarm;";
 
-      String dropDaBase = "DROP DATABASE SethysFarm;";
+      String createDatabase = "CREATE DATABASE IF NOT EXISTS sethysfarm;";
 
-      String createDatabase = "CREATE DATABASE IF NOT EXISTS SethysFarm;";
-
-      String createTable = "CREATE TABLE IF NOT EXISTS SethysFarm.meinePflanzen (\n"
+      String createTable = "CREATE TABLE IF NOT EXISTS sethysfarm.meinePflanzen (\n"
                            + "	PflanzenID integer PRIMARY KEY,\n"
                            + "	Pflanzenart text NOT NULL,\n"
                            + "	Hoehe real\n"
                            + ");";
 
-      String insertPlants = "INSERT INTO SethysFarm.meinePflanzen (PflanzenID, Pflanzenart, Hoehe) VALUES (?,?,?)";
+      String insertPlants = "INSERT INTO sethysfarm.meinePflanzen (PflanzenID, Pflanzenart, Hoehe) VALUES (?,?,?)";
 
       try
       {
          buildConnexion();
 
-         statement.executeQuery(dropDaBase);
+         statement.execute(dropDaBase);
          statement.execute(createDatabase);
          statement.execute(createTable);
          ps = myConn.prepareStatement(insertPlants);
 
+         int lfn = 0;
+         int lfnmais = 0;
+         int lfnweizen = 0;
+
          for( Pflanze pflanze : maisFeld )
          {
             lfn++;
+            lfnmais++;
             ps.setInt(1, lfn);
-            ps.setString(2, "Mais_" + lfn);
+            ps.setString(2, "Mais_" + lfnmais);
             ps.setDouble(3, pflanze.getHoehe());
             int rowOfTable = ps.executeUpdate();
          }
+
          for( Pflanze pflanze : weizenFeld )
          {
             lfn++;
+            lfnweizen++;
             ps.setInt(1, lfn);
-            ps.setString(2, "Weizens_" + lfn);
+            ps.setString(2, "Weizen_" + lfnweizen);
             ps.setDouble(3, pflanze.getHoehe());
             int rowOfTable = ps.executeUpdate();
          }

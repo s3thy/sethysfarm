@@ -9,17 +9,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 
 import static app.Main.primaryStage;
-import static controller.LoginController.txt_name;
-import static controller.LoginController.txt_pwd;
 
 public class Funktionen
 {
-   public void logMeInOrNot()
+   public void logMeInOrNot(String txt_pwd, String txt_name)
    {
-      String user = txt_name.getText();
-      String pwd = txt_pwd.getText();
-
-      if( user.equals("") && pwd.equals("") )
+      if( txt_name.equals("") && txt_pwd.equals("") )
       {
          // View mit BarChart
          FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/viewStats.fxml"));

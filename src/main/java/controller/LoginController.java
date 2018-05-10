@@ -9,15 +9,15 @@ import javafx.scene.control.TextField;
 public class LoginController
 {
    @FXML
-   static public Button btn_login;
+   public Button btn_login;
    @FXML
-   static public PasswordField txt_pwd;
+   public PasswordField txt_pwd;
    @FXML
-   static public TextField txt_name;
+   public TextField txt_name;
 
    public void init()
    {
-      btn_login.setOnAction(Event -> new Funktionen().logMeInOrNot());
+      btn_login.setOnAction(Event -> new Funktionen().logMeInOrNot(txt_pwd.getText(), txt_name.getText()));
    }
 
 }

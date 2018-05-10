@@ -14,7 +14,7 @@ public class SchreibeInDatei
    public void schreibeCsv(List<Pflanze> meinePflanzen)
    {
       StringBuilder pflanzen = null;
-      int lfn=0;
+      int lfn = 0;
 
       for( Pflanze pflanze : meinePflanzen )
       {

@@ -3,14 +3,12 @@ package app;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 
 import nutzpflanzen.Pflanze;
 
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
-import static funktionen.Werkzeuge.format;
 
 public class ConsoleOut
 {
@@ -20,7 +18,7 @@ public class ConsoleOut
 
       int anzahlMais = maisFeld.size();
       int anzahlWeizen = weizenFeld.size();
-      int lfn=0;
+      int lfn = 0;
 
 
       String url = "jdbc:mysql://localhost:3306/";
@@ -57,8 +55,8 @@ public class ConsoleOut
          for( Pflanze pflanze : maisFeld )
          {
             lfn++;
-            ps.setInt(1,lfn);
-            ps.setString(2, "Mais_"+lfn);
+            ps.setInt(1, lfn);
+            ps.setString(2, "Mais_" + lfn);
             ps.setDouble(3, pflanze.getHoehe());
             int rowOfTable = ps.executeUpdate();
          }
@@ -69,9 +67,9 @@ public class ConsoleOut
 
          }
 */
-        // statement.execute(createDatabase);
-        // statement.execute(createTable);
-        // statement.execute(insertPlants);
+         // statement.execute(createDatabase);
+         // statement.execute(createTable);
+         // statement.execute(insertPlants);
       }
       catch(Exception exc)
       {
