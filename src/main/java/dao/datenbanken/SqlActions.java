@@ -25,18 +25,26 @@ public class SqlActions
    PreparedStatement ps;
    ResultSet rs;
 
-   public void buildConnexion()
+   public void buildConnection()
    {
       try
       {
          myConn = DriverManager.getConnection(url, user, pw);
          statement = myConn.createStatement();
       }
+      catch(CommunicationsException e)
+      {
+         System.err.println(e);
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+         alert.setTitle("Verbindungsfehler");
+         alert.setContentText("Verbindung zum SQL Server fehlgeschlagen");
+         alert.showAndWait();
+      }
       catch(Exception e)
       {
-         e.printStackTrace();
-         System.err.println("MYSQL Server gestartet?");
+         System.err.println(e);
       }
+
    }
 
    public void writeSQL()
@@ -55,7 +63,7 @@ public class SqlActions
 
       try
       {
-         buildConnexion();
+         buildConnection();
 
          statement.execute(dropDaBase);
          statement.execute(createDatabase);
