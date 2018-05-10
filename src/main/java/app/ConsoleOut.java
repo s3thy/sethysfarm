@@ -1,6 +1,11 @@
 package app;
 
-import dao.dateien.SchreibeInDatei;
+import java.util.ArrayList;
+import java.util.List;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import nutzpflanzen.Pflanze;
 
 import static app.ErstelleDaten.maisFeld;
@@ -26,18 +31,56 @@ public class ConsoleOut
       for( Pflanze pflanze : maisFeld )
       {
          lfn++;
-         System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
+         // System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
       }
 
       for( Pflanze pflanze : weizenFeld )
       {
          lfn++;
-         System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
+         // System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
       }
 
-      new SchreibeInDatei().schreibeCsv(maisFeld);
+      // new SchreibeInDatei().schreibeCsv(maisFeld);
 
-      new SchreibeInDatei().schreibeCsv(weizenFeld);
+      // new SchreibeInDatei().schreibeCsv(weizenFeld);
+
+
+      // Use Java Collections to create the List.
+      List<String> list = new ArrayList();
+
+      for( Pflanze pflanze : maisFeld )
+      {
+         lfn++;
+         // System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
+         list.add(String.valueOf(pflanze.getHoehe()));
+      }
+
+      // Now add observability by wrapping it with ObservableList.
+      ObservableList<String> observableList = FXCollections.observableList(list);
+      observableList.addListener(new ListChangeListener()
+      {
+
+         @Override
+         public void onChanged(ListChangeListener.Change change)
+         {
+            System.out.println("Detected a change! ");
+         }
+      });
+
+      // Changes to the observableList WILL be reported.
+      // This line will print out "Detected a change!"
+      /// observableList.add("item one");
+
+      // Changes to the underlying list will NOT be reported
+      // Nothing will be printed as a result of the next line.
+      /// list.add("item two");
+
+      System.out.println("Size: " + observableList.size());
+
+      for( String s : observableList )
+      {
+         System.out.println(s.toString());
+      }
 
 /*
       String url = "jdbc:mysql://localhost:3306/";
