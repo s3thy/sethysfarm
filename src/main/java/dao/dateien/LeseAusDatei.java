@@ -9,12 +9,14 @@ public class LeseAusDatei
 {
    public void leseCsv() throws Exception
    {
+      int lfn = 0;
       BufferedReader br = new BufferedReader(new FileReader(datei));
       String currLine;
 
       while( (currLine = br.readLine()) != null )
       {
-         System.out.println(currLine);
+         lfn++;
+         System.out.println(lfn + " " + currLine);
       }
       br.close();
    }

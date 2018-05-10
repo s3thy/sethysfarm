@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import nutzpflanzen.Pflanze;
 
@@ -21,7 +22,10 @@ public class SchreibeInDatei
          lfn++;
          pflanzen = new StringBuilder();
 
-         pflanzen.append(pflanze.getClass());
+         String className = String.valueOf(pflanze.getClass());
+         String[] pflanzenName = className.split(Pattern.quote("."));
+
+         pflanzen.append(pflanzenName[1] + "_" + lfn);
          pflanzen.append(';');
          pflanzen.append(pflanze.getHoehe());
          pflanzen.append(';');
@@ -40,7 +44,7 @@ public class SchreibeInDatei
             e.printStackTrace();
          }
       }
-      System.out.println("CSV gespeichert");
+      System.out.println("*.csv Datei geschrieben");
    }
 }
 

@@ -51,15 +51,13 @@ public class ViewController
    Timer timer = null;
    TimerTask mytask = null;
    int zaehler = 0;
-   private String clickedButton = "gesamt";
+   private String clickedButton = "";
 
    public void init()
    {
       btn_ernten.setOnAction(this::erntePflanzen);
       btn_giessen.setOnAction(this::giessePflanzen);
       btn_saeen.setOnAction(this::saeePflanzen);
-      //btn_automat.setOnMousePressed(Event -> new Funktionen().starteAlleAutomaten());
-      //btn_automat.setOnMouseReleased(Event -> new Funktionen().stoppeAlleAutomaten());
 
       btn_automat.setOnMousePressed(this::starteAlleAutomaten);
       btn_automat.setOnMouseReleased(this::stoppeAlleAutomaten);
@@ -80,46 +78,57 @@ public class ViewController
          alert.setHeaderText("CSV-Datei nicht vorhanden");
          alert.setContentText("Pflanzen werden zufällig generiert");
          alert.showAndWait();
-
-         new ErstelleDaten().createFarm();
-         txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
-         txt_ausgabe.setText(getMyData("mais"));
-         txt_ausgabe1.setText(getMyData("weizen"));
-         barchart_ertraege.getData().clear();
-         fillBarChart("Weizen");
-         fillBarChart("Mais");
-         btn_gesamt.getStyleClass().add("clicked");
-         kitchenAid.add(new SaeMaschine());
-         kitchenAid.add(new GiessMaschine());
-         kitchenAid.add(new ErnteMaschine());
       }
+      new ErstelleDaten().createFarm();
+
+      clickedButton = "gesamt";
+      btn_gesamt.getStyleClass().add("clicked");
+
+      kitchenAid.add(new SaeMaschine());
+      kitchenAid.add(new GiessMaschine());
+      kitchenAid.add(new ErnteMaschine());
+
+      refreshInfo();
    }
 
-   private void refreshInfo()
+   private void clickedMais(ActionEvent actionEvent)
    {
-      switch( clickedButton )
-      {
-         case "mais":
-            fillBarChart("Mais");
-            break;
-         case "weizen":
-            fillBarChart("Weizen");
-            break;
-         case "gesamt":
-            fillBarChart("Mais");
-            fillBarChart("Weizen");
-            break;
-         default:
-            txt_ausgabe.setText(getMyData("mais"));
-            txt_ausgabe1.setText(getMyData("weizen"));
-            txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
-            break;
-      }
+      clickedButton = "mais";
+
+      btn_mais.getStyleClass().add("clicked");
+      btn_weizen.getStyleClass().remove("clicked");
+      btn_gesamt.getStyleClass().remove("clicked");
+
+      showMaisStats();
+      refreshInfo();
+   }
+
+   private void clickedWeizen(ActionEvent actionEvent)
+   {
+      clickedButton = "weizen";
+
+      btn_weizen.getStyleClass().add("clicked");
+      btn_mais.getStyleClass().remove("clicked");
+      btn_gesamt.getStyleClass().remove("clicked");
+
+      showWeizenStats();
+      refreshInfo();
+   }
+
+   private void clickedGesamt(ActionEvent actionEvent)
+   {
+      clickedButton = "gesamt";
+
+      btn_gesamt.getStyleClass().add("clicked");
+      btn_mais.getStyleClass().remove("clicked");
+      btn_weizen.getStyleClass().remove("clicked");
+
+      showGesamtStats();
+      refreshInfo();
    }
 
    private void showMaisStats()
    {
-      barchart_ertraege.getData().clear();
       if( maisFeld.size() != 0 )
       {
          fillBarChart("Mais");
@@ -128,7 +137,6 @@ public class ViewController
 
    private void showWeizenStats()
    {
-      barchart_ertraege.getData().clear();
       if( weizenFeld.size() != 0 )
       {
          fillBarChart("Weizen");
@@ -137,7 +145,6 @@ public class ViewController
 
    private void showGesamtStats()
    {
-      barchart_ertraege.getData().clear();
       if( weizenFeld.size() != 0 )
       {
          fillBarChart("Weizen");
@@ -148,93 +155,29 @@ public class ViewController
       }
    }
 
-   private void clickedMais(ActionEvent actionEvent)
-   {
-      clickedButton = "mais";
-
-      btn_weizen.getStyleClass().remove("clicked");
-      btn_gesamt.getStyleClass().remove("clicked");
-      btn_mais.getStyleClass().add("clicked");
-
-      showMaisStats();
-
-      // TESTAUSGABE
-      txt_console.setText("'mais' button clicked");
-      System.out.println("'mais' button clicked");
-      txt_ausgabe.setText(getMyData("mais"));
-      txt_ausgabe1.setText(getMyData("weizen"));
-      txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
-   }
-
-   private void clickedWeizen(ActionEvent actionEvent)
-   {
-      clickedButton = "weizen";
-
-      btn_mais.getStyleClass().remove("clicked");
-      btn_gesamt.getStyleClass().remove("clicked");
-      btn_weizen.getStyleClass().add("clicked");
-
-      showWeizenStats();
-
-      // TESTAUSGABE
-      txt_console.setText("'weizen' button clicked");
-      System.out.println("'weizen' button clicked");
-      txt_ausgabe.setText(getMyData("mais"));
-      txt_ausgabe1.setText(getMyData("weizen"));
-      txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
-   }
-
-   private void clickedGesamt(ActionEvent actionEvent)
-   {
-      clickedButton = "gesamt";
-
-      btn_mais.getStyleClass().remove("clicked");
-      btn_weizen.getStyleClass().remove("clicked");
-      btn_gesamt.getStyleClass().add("clicked");
-
-      showGesamtStats();
-
-      // TESTAUSGABE
-      txt_console.setText("'gesamt' button clicked");
-      System.out.println("'gesamt' button clicked");
-      txt_ausgabe.setText(getMyData("mais"));
-      txt_ausgabe1.setText(getMyData("weizen"));
-      txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
-   }
-
    private void giessePflanzen(ActionEvent actionEvent)
    {
-      barchart_ertraege.getData().clear();
-
       switch( clickedButton )
       {
          case "mais":
             new GiessMaschine().arbeiten(maisFeld);
-            fillBarChart("Mais");
             break;
-
          case "weizen":
             new GiessMaschine().arbeiten(weizenFeld);
-            fillBarChart("Weizen");
             break;
-
          case "gesamt":
             new GiessMaschine().arbeiten(maisFeld);
             new GiessMaschine().arbeiten(weizenFeld);
-            fillBarChart("Weizen");
-            fillBarChart("Mais");
             break;
       }
-
-      // TESTAUSGABE
-      txt_ausgabe.setText(getMyData("mais"));
-      txt_ausgabe1.setText(getMyData("weizen"));
+      refreshInfo();
    }
 
    private void saeePflanzen(ActionEvent actionEvent)
    {
 
-      if( (maisFeld.size() == Spezifikationen.Feld.getMaximaleFeldGroesse()) || (weizenFeld.size() == Spezifikationen.Feld.getMaximaleFeldGroesse()) )
+      if( (maisFeld.size() == Spezifikationen.Feld.getMaximaleFeldGroesse()) || (weizenFeld.size() == Spezifikationen.Feld
+            .getMaximaleFeldGroesse()) )
       {
          Alert alert = new Alert(Alert.AlertType.INFORMATION);
          alert.setTitle("ERROR");
@@ -243,63 +186,46 @@ public class ViewController
          alert.showAndWait();
       }
 
-
-      barchart_ertraege.getData().clear();
-
       switch( clickedButton )
       {
          case "mais":
             new SaeMaschine().arbeiten(maisFeld, "mais");
-            fillBarChart("Mais");
             break;
 
          case "weizen":
             new SaeMaschine().arbeiten(weizenFeld, "weizen");
-            fillBarChart("Weizen");
             break;
 
          case "gesamt":
             new SaeMaschine().arbeiten(maisFeld, "mais");
             new SaeMaschine().arbeiten(weizenFeld, "weizen");
-            fillBarChart("Weizen");
-            fillBarChart("Mais");
             break;
       }
-
-      // TESTAUSGABE
-      txt_ausgabe.setText(getMyData("mais"));
-      txt_ausgabe1.setText(getMyData("weizen"));
-      txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
+      refreshInfo();
    }
 
    private void erntePflanzen(ActionEvent actionEvent)
    {
-      barchart_ertraege.getData().clear();
-
       switch( clickedButton )
       {
          case "mais":
             new ErnteMaschine().arbeiten(maisFeld);
-            fillBarChart("Mais");
+            //fillBarChart("Mais");
             break;
 
          case "weizen":
             new ErnteMaschine().arbeiten(weizenFeld);
-            fillBarChart("Weizen");
+            //fillBarChart("Weizen");
             break;
 
          case "gesamt":
             new ErnteMaschine().arbeiten(maisFeld);
             new ErnteMaschine().arbeiten(weizenFeld);
-            fillBarChart("Weizen");
-            fillBarChart("Mais");
+            //fillBarChart("Weizen");
+            //fillBarChart("Mais");
             break;
       }
-
-      // TESTAUSGABE
-      txt_ausgabe.setText(getMyData("mais"));
-      txt_ausgabe1.setText(getMyData("weizen"));
-      txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
+      refreshInfo();
    }
 
    private void clickedOpenCsv(ActionEvent actionEvent)
@@ -357,6 +283,30 @@ public class ViewController
       return sb.toString();
    }
 
+   private void refreshInfo()
+   {
+      barchart_ertraege.getData().clear();
+      switch( clickedButton )
+      {
+         case "mais":
+            fillBarChart("Mais");
+            break;
+         case "weizen":
+            fillBarChart("Weizen");
+            break;
+         case "gesamt":
+            fillBarChart("Mais");
+            fillBarChart("Weizen");
+            break;
+      }
+      txt_ausgabe.setText(getMyData("mais"));
+      txt_ausgabe1.setText(getMyData("weizen"));
+      txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: "
+                         + String.valueOf(weizenFeld.size()
+                                          + " gesamt: "
+                                          + (maisFeld.size() + weizenFeld.size())));
+   }
+
    private void stoppeAlleAutomaten(MouseEvent actionEvent)
    {
       mytask.cancel();
@@ -367,7 +317,10 @@ public class ViewController
 
    private void starteAlleAutomaten(MouseEvent actionEvent)
    {
+      barchart_ertraege.getData().clear();
+
       timer = new Timer(true);
+
       mytask = new TimerTask()
       {
          @Override
@@ -421,9 +374,14 @@ public class ViewController
                         }
                   }
 
+                  // TODO
+                  // manipulate FX Node BarChart
                   txt_ausgabe.setText(getMyData("mais"));
                   txt_ausgabe1.setText(getMyData("weizen"));
-                  txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
+                  txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: "
+                                     + String.valueOf(weizenFeld.size()
+                                                      + " gesamt: "
+                                                      + (maisFeld.size() + weizenFeld.size())));
                }
             }
          }

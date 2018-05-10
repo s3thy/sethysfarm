@@ -1,14 +1,11 @@
 package app;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.Statement;
-
+import dao.dateien.SchreibeInDatei;
 import nutzpflanzen.Pflanze;
 
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
+import static dao.dateien.DateiConfig.datei;
 
 public class ConsoleOut
 {
@@ -20,7 +17,29 @@ public class ConsoleOut
       int anzahlWeizen = weizenFeld.size();
       int lfn = 0;
 
+      if( datei.exists() )
+      {
+         datei.delete();
+         System.out.println("Alte Datei wurde gelöscht");
+      }
 
+      for( Pflanze pflanze : maisFeld )
+      {
+         lfn++;
+         System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
+      }
+
+      for( Pflanze pflanze : weizenFeld )
+      {
+         lfn++;
+         System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
+      }
+
+      new SchreibeInDatei().schreibeCsv(maisFeld);
+
+      new SchreibeInDatei().schreibeCsv(weizenFeld);
+
+/*
       String url = "jdbc:mysql://localhost:3306/";
       String user = "sethy";
       String pw = "sethy";
@@ -61,17 +80,17 @@ public class ConsoleOut
             int rowOfTable = ps.executeUpdate();
          }
 
-
+*/
        /*  while( rowOfTable.next() )
          {
 
          }
 */
-         // statement.execute(createDatabase);
-         // statement.execute(createTable);
-         // statement.execute(insertPlants);
-      }
-      catch(Exception exc)
+      // statement.execute(createDatabase);
+      // statement.execute(createTable);
+      // statement.execute(insertPlants);
+ /*     catch(Exception exc)
+   }
       {
          exc.printStackTrace();
       }
@@ -88,7 +107,7 @@ public class ConsoleOut
             }
          }
       }
-
+*/
       /*
       weizenFeld.get(0).setHoehe(101.0);
       System.out.println(weizenFeld.get(0).getHoehe());
@@ -135,3 +154,4 @@ public class ConsoleOut
 
    }
 }
+

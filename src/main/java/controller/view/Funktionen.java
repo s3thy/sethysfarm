@@ -6,6 +6,7 @@ import dao.datenbanken.SqlActions;
 
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
+import static dao.dateien.DateiConfig.datei;
 
 public class Funktionen
 {
@@ -28,23 +29,26 @@ public class Funktionen
       catch(Exception e)
       {
          e.printStackTrace();
-         // txt_console.setText(e.toString());
       }
    }
 
    public void saveCSV()
    {
+      if( datei.exists() )
+      {
+         datei.delete();
+         System.out.println("Alte Datei wurde gelöscht");
+      }
+
       if( maisFeld.size() > 0 )
       {
          new SchreibeInDatei().schreibeCsv(maisFeld);
-         // txt_console.setText("Maiskölbchen in CSV festgehalten");
-         System.out.println("Maiskölbchen in CSV festgehalten");
+         System.out.println(maisFeld.size() + " Maiskölbchen in CSV festgehalten");
       }
       if( weizenFeld.size() > 0 )
       {
          new SchreibeInDatei().schreibeCsv(weizenFeld);
-         // txt_console.setText("Weizenhalme in CSV festgehalten");
-         System.out.println("Weizenhalme in CSV festgehalten");
+         System.out.println(weizenFeld.size() + " Weizenhalme in CSV festgehalten");
       }
    }
 
