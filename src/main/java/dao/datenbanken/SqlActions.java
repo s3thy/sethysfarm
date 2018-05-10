@@ -60,15 +60,15 @@ public class SqlActions
          ps = myConn.prepareStatement(insertPlants);
 
          int lfn = 0;
-         int lfnmais = 0;
-         int lfnweizen = 0;
+         int lnfMais = 0;
+         int lfnWeizen = 0;
 
          for( Pflanze pflanze : maisFeld )
          {
             lfn++;
-            lfnmais++;
+            lnfMais++;
             ps.setInt(1, lfn);
-            ps.setString(2, "Mais_" + lfnmais);
+            ps.setString(2, "Mais_" + lnfMais);
             ps.setDouble(3, pflanze.getHoehe());
             int rowOfTable = ps.executeUpdate();
          }
@@ -76,9 +76,9 @@ public class SqlActions
          for( Pflanze pflanze : weizenFeld )
          {
             lfn++;
-            lfnweizen++;
+            lfnWeizen++;
             ps.setInt(1, lfn);
-            ps.setString(2, "Weizen_" + lfnweizen);
+            ps.setString(2, "Weizen_" + lfnWeizen);
             ps.setDouble(3, pflanze.getHoehe());
             int rowOfTable = ps.executeUpdate();
          }
