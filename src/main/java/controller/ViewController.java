@@ -50,7 +50,7 @@ public class ViewController
    Timer timer = null;
    TimerTask mytask = null;
    int zaehler = 0;
-   private String clickedButton = "";
+   private String clickedButton = "gesamt";
 
    public void init()
    {
