@@ -1,14 +1,5 @@
 package controller.view;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
-
-import automaten.Automat;
-import automaten.ErnteMaschine;
-import automaten.GiessMaschine;
-import automaten.SaeMaschine;
 import dao.dateien.LeseAusDatei;
 import dao.dateien.SchreibeInDatei;
 import dao.datenbanken.SqlActions;
