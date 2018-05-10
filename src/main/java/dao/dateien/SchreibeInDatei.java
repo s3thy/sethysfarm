@@ -14,9 +14,11 @@ public class SchreibeInDatei
    public void schreibeCsv(List<Pflanze> meinePflanzen)
    {
       StringBuilder pflanzen = null;
+      int lfn=0;
 
       for( Pflanze pflanze : meinePflanzen )
       {
+         lfn++;
          pflanzen = new StringBuilder();
 
          pflanzen.append(pflanze.getClass());

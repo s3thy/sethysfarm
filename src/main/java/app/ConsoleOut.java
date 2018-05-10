@@ -6,48 +6,72 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import nutzpflanzen.Pflanze;
+
+import static app.ErstelleDaten.maisFeld;
+import static app.ErstelleDaten.weizenFeld;
+import static funktionen.Werkzeuge.format;
+
 public class ConsoleOut
 {
    public static void main(String[] args)
    {
       new ErstelleDaten().createFarm();
 
-      String url = "jdbc:mysql://localhost:3306/SethysFarm";
+      int anzahlMais = maisFeld.size();
+      int anzahlWeizen = weizenFeld.size();
+      int lfn=0;
+
+
+      String url = "jdbc:mysql://localhost:3306/";
       String user = "sethy";
       String pw = "sethy";
 
       Connection myConn = null;
       Statement statement = null;
-      ResultSet resultSet = null;
+      // ResultSet resultSet = null;
       PreparedStatement ps = null;
 
-      String createTable = "CREATE TABLE IF NOT EXISTS meinePflanzen (\n"
+      // String createSchema = "CREATE SCHEMA IF NOT EXISTS Sethy";
+
+      String createDatabase = "CREATE DATABASE IF NOT EXISTS SethysFarm;";
+
+      String createTable = "CREATE TABLE IF NOT EXISTS SethysFarm.meinePflanzen (\n"
                            + "	PflanzenID integer PRIMARY KEY,\n"
                            + "	Pflanzenart text NOT NULL,\n"
                            + "	Hoehe real\n"
                            + ");";
 
-      String insertPlants = "INSERT INTO SethysFarm.meinePflanzen (PflanzenID, Pflanzenart, Hoehe) VALUES "
-                            + "(1, 'Mais', 9.54);";
-
-      String preparedStmt = "SELECT PflanzenID FROM SethysFarm.meinePflanzen WHERE Pflanzenart=? AND Hoehe=?";
+      String insertPlants = "INSERT INTO SethysFarm.meinePflanzen (PflanzenID, Pflanzenart, Hoehe) VALUES (?,?,?)";
 
       try
       {
          myConn = DriverManager.getConnection(url, user, pw);
          statement = myConn.createStatement();
-         ps = myConn.prepareStatement(preparedStmt);
 
-         ps.setDouble(1, 6.58);
-         ps.setDouble(2, 9.87);
-         resultSet = ps.executeQuery();
-         while( resultSet.next() )
+         // statement.execute(createSchema);
+         statement.execute(createDatabase);
+         statement.execute(createTable);
+         ps = myConn.prepareStatement(insertPlants);
+
+         for( Pflanze pflanze : maisFeld )
          {
-            System.out.println(resultSet.getString(1) + "\n" + resultSet.getDouble(2));
+            lfn++;
+            ps.setInt(1,lfn);
+            ps.setString(2, "Mais_"+lfn);
+            ps.setDouble(3, pflanze.getHoehe());
+            int rowOfTable = ps.executeUpdate();
          }
 
-         statement.execute(createTable);
-         statement.execute(insertPlants);
+
+       /*  while( rowOfTable.next() )
+         {
+
+         }
+*/
+        // statement.execute(createDatabase);
+        // statement.execute(createTable);
+        // statement.execute(insertPlants);
       }
       catch(Exception exc)
       {

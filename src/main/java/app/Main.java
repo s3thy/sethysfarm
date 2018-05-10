@@ -29,7 +29,7 @@ public class Main extends Application
       primaryStage.setResizable(false);
       primaryStage.show();
 
-      // CSS wird mit der FXML geladen
+      // CSS wird in der FXML geladen
       // scene.getStylesheets().add(getClass().getResource("/views/login.css").toExternalForm());
 
       LoginController loginController = loader.getController();
