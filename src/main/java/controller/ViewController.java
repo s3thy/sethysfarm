@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import nutzpflanzen.Pflanze;
+import nutzpflanzen.Spezifikationen;
 
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
@@ -76,7 +77,7 @@ public class ViewController
       {
          Alert alert = new Alert(Alert.AlertType.INFORMATION);
          alert.setTitle("ACHTUNG");
-         alert.setHeaderText("Datei nicht vorhanden");
+         alert.setHeaderText("CSV-Datei nicht vorhanden");
          alert.setContentText("Pflanzen werden zufällig generiert");
          alert.showAndWait();
 
@@ -87,7 +88,7 @@ public class ViewController
          barchart_ertraege.getData().clear();
          fillBarChart("Weizen");
          fillBarChart("Mais");
-
+         btn_gesamt.getStyleClass().add("clicked");
          kitchenAid.add(new SaeMaschine());
          kitchenAid.add(new GiessMaschine());
          kitchenAid.add(new ErnteMaschine());
@@ -210,16 +211,16 @@ public class ViewController
 
    public void saeePflanzen(ActionEvent actionEvent)
    {
-      /*
-      if( (maisFeld.size() == 50) || (weizenFeld.size() == 50) )
+
+      if( (maisFeld.size() == Spezifikationen.Feld.getMaximaleFeldGroesse()) || (weizenFeld.size() == Spezifikationen.Feld.getMaximaleFeldGroesse()) )
       {
          Alert alert = new Alert(Alert.AlertType.INFORMATION);
          alert.setTitle("ERROR");
-         alert.setHeaderText("Felder haben keinen Platz mehr");
-         alert.setContentText("Du solltest so langsam mal was ernten");
+         alert.setHeaderText(clickedButton + "feld(er) haben keinen Platz mehr");
+         alert.setContentText("Maximalgröße beträgt " + Spezifikationen.Feld.getMaximaleFeldGroesse());
          alert.showAndWait();
       }
-      */
+
 
       barchart_ertraege.getData().clear();
 
