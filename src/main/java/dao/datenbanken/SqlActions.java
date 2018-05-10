@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
+import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import javafx.scene.control.Alert;
 import nutzpflanzen.Pflanze;
 
@@ -33,6 +35,7 @@ public class SqlActions
       catch(Exception e)
       {
          e.printStackTrace();
+         System.err.println("MYSQL Server gestartet?");
       }
    }
 
@@ -116,13 +119,25 @@ public class SqlActions
             System.out.println(rs.getString("Pflanzenart"));
          }
       }
+      catch(CommunicationsException e)
+      {
+         System.err.println(e);
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+         alert.setTitle("Verbindungsfehler");
+         alert.setContentText("Verbindung zum SQL Server fehlgeschlagen");
+         alert.showAndWait();
+      }
+      catch(MySQLSyntaxErrorException e)
+      {
+         System.err.println(e);
+         Alert alert = new Alert(Alert.AlertType.ERROR);
+         alert.setTitle("Datenbankfehler");
+         alert.setContentText("Tabelle exisitiert nicht");
+         alert.showAndWait();
+      }
       catch(Exception e)
       {
-         e.printStackTrace();
-         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-         alert.setTitle("ACHTUNG");
-         alert.setHeaderText("Table 'sethysfarm.meinepflanzen' doesn't exist");
-         alert.showAndWait();
+         System.err.println(e);
       }
    }
 

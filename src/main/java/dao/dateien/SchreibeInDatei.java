@@ -41,7 +41,7 @@ public class SchreibeInDatei
          }
          catch(Exception e)
          {
-            e.printStackTrace();
+            System.err.println(e);
          }
       }
       System.out.println("*.csv Datei geschrieben");
