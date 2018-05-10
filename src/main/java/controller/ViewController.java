@@ -1,6 +1,12 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
+
 import app.ErstelleDaten;
+import automaten.Automat;
 import automaten.ErnteMaschine;
 import automaten.GiessMaschine;
 import automaten.SaeMaschine;
@@ -12,6 +18,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseEvent;
 import nutzpflanzen.Pflanze;
 
 import static app.ErstelleDaten.maisFeld;
@@ -39,15 +46,22 @@ public class ViewController
    public TextArea txt_anzahl;
    public TextArea txt_console;
 
-   private String clickedButton = "gesamt";
+   List<Automat> kitchenAid = new ArrayList<Automat>();
+   Timer timer = null;
+   TimerTask mytask = null;
+   int zaehler = 0;
+   private String clickedButton = "";
 
    public void init()
    {
       btn_ernten.setOnAction(this::erntePflanzen);
       btn_giessen.setOnAction(this::giessePflanzen);
       btn_saeen.setOnAction(this::saeePflanzen);
-      btn_automat.setOnMousePressed(Event -> new Funktionen().starteAlleAutomaten());
-      btn_automat.setOnMouseReleased(Event -> new Funktionen().stoppeAlleAutomaten());
+      //btn_automat.setOnMousePressed(Event -> new Funktionen().starteAlleAutomaten());
+      //btn_automat.setOnMouseReleased(Event -> new Funktionen().stoppeAlleAutomaten());
+
+      btn_automat.setOnMousePressed(this::starteAlleAutomaten);
+      btn_automat.setOnMouseReleased(this::stoppeAlleAutomaten);
 
       btn_mais.setOnAction(this::clickedMais);
       btn_weizen.setOnAction(this::clickedWeizen);
@@ -74,6 +88,9 @@ public class ViewController
          fillBarChart("Weizen");
          fillBarChart("Mais");
 
+         kitchenAid.add(new SaeMaschine());
+         kitchenAid.add(new GiessMaschine());
+         kitchenAid.add(new ErnteMaschine());
       }
    }
 
@@ -190,7 +207,6 @@ public class ViewController
       txt_ausgabe.setText(getMyData("mais"));
       txt_ausgabe1.setText(getMyData("weizen"));
    }
-
 
    public void saeePflanzen(ActionEvent actionEvent)
    {
@@ -317,6 +333,81 @@ public class ViewController
       }
       return sb.toString();
    }
+
+   public void stoppeAlleAutomaten(MouseEvent actionEvent)
+   {
+      mytask.cancel();
+      mytask = null;
+      timer.cancel();
+      timer = null;
+   }
+
+   public void starteAlleAutomaten(MouseEvent actionEvent)
+   {
+      timer = new Timer(true);
+      mytask = new TimerTask()
+      {
+         @Override
+         public void run()
+         {
+            {
+               zaehler++;
+               System.out.println(zaehler);
+
+               String clickedPflanzenart = "";
+
+               for( Automat automat : kitchenAid )
+               {
+                  System.out.println(automat.getClass() + " wird ausgeführt");
+
+                  switch( clickedButton )
+                  {
+                     case "mais":
+                        clickedPflanzenart = "mais";
+                        if( automat instanceof SaeMaschine )
+                        {
+                           automat.arbeiten(maisFeld, clickedPflanzenart);
+                        }
+                        else
+                        {
+                           automat.arbeiten(maisFeld);
+                        }
+                        break;
+
+                     case "weizen":
+                        clickedPflanzenart = "weizen";
+                        if( automat instanceof SaeMaschine )
+                        {
+                           automat.arbeiten(weizenFeld, clickedPflanzenart);
+                        }
+                        else
+                        {
+                           automat.arbeiten(weizenFeld);
+                        }
+                        break;
+                     case "gesamt":
+                        if( automat instanceof SaeMaschine )
+                        {
+                           automat.arbeiten(maisFeld, "Mais");
+                           automat.arbeiten(weizenFeld, "Weizen");
+                        }
+                        else
+                        {
+                           automat.arbeiten(maisFeld);
+                           automat.arbeiten(weizenFeld);
+                        }
+                  }
+
+                  txt_ausgabe.setText(getMyData("mais"));
+                  txt_ausgabe1.setText(getMyData("weizen"));
+                  txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: " + String.valueOf(weizenFeld.size()));
+               }
+            }
+         }
+      };
+      timer.scheduleAtFixedRate(mytask, 0, 500);
+   }
+
 }
 
 
