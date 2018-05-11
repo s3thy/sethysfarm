@@ -290,6 +290,7 @@ public class ViewController
    private void clickedOpenCsv(ActionEvent actionEvent)
    {
       new Funktionen().openCSV();
+      refreshInfo();
    }
 
    private void clickedSaveCsv(ActionEvent actionEvent)
@@ -342,7 +343,7 @@ public class ViewController
       return sb.toString();
    }
 
-   private void refreshInfo()
+   public void refreshInfo()
    {
       barchart_ertraege.getData().clear();
       switch( clickedButton )
