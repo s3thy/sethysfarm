@@ -6,14 +6,19 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import javafx.scene.control.Alert;
+import nutzpflanzen.Mais;
+import nutzpflanzen.Weizen;
 
+import static app.ErstelleDaten.maisFeld;
+import static app.ErstelleDaten.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
+import static funktionen.Werkzeuge.format;
 
 public class LeseAusDatei
 {
-   public void leseCsv() throws IOException
+   public int leseCsv() throws IOException
    {
-      int lfn = 0;
+      int anzahlZeilen = 0;
       BufferedReader br = null;
       try
       {
@@ -31,10 +36,45 @@ public class LeseAusDatei
 
       while( (currLine = br.readLine()) != null )
       {
-         lfn++;
-         System.out.println(lfn + " " + currLine);
+         String[] currLineSplit = currLine.split(";");
+         int laufendeNummer = Integer.parseInt(currLineSplit[0]);
+         String pflanzenArt = currLineSplit[1];
+         double pflanzenHoehe = Double.parseDouble(currLineSplit[2]);
+
+         anzahlZeilen++;
+         System.out.println(laufendeNummer + " " + pflanzenArt + " " + format(pflanzenHoehe));
+
+         if( pflanzenArt.equals("Mais") )
+         {
+            maisFeld.add(new Mais(pflanzenHoehe));
+         }
+         if( pflanzenArt.equals("Weizen") )
+         {
+            weizenFeld.add(new Weizen(pflanzenHoehe));
+         }
+/*
+         try
+         {
+            Pflanze pflanze = (Pflanze) Class.forName("nutzpflanzen." + currLineSplit[1]).newInstance();
+         }
+         catch(InstantiationException e)
+         {
+            System.err.println(e);
+         }
+         catch(IllegalAccessException e)
+         {
+            System.err.println(e);
+         }
+         catch(ClassNotFoundException e)
+         {
+            System.err.println(e);
+         }
+*/
+
       }
+      System.out.println("\n" + anzahlZeilen + " Zeilen in CSV-Datei");
       br.close();
+      return anzahlZeilen;
    }
 
 }

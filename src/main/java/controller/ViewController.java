@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -11,6 +12,7 @@ import automaten.ErnteMaschine;
 import automaten.GiessMaschine;
 import automaten.SaeMaschine;
 import controller.view.Funktionen;
+import dao.dateien.LeseAusDatei;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
@@ -48,9 +50,10 @@ public class ViewController
    public TextArea txt_console;
 
    List<Automat> kitchenAid = new ArrayList<Automat>();
+
    Timer timer = null;
    TimerTask mytask = null;
-   int zaehler = 0;
+
    private String clickedButton = "";
 
    public void init()
@@ -73,13 +76,29 @@ public class ViewController
 
       if( !datei.exists() )
       {
-         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         Alert alert = new Alert(Alert.AlertType.ERROR);
          alert.setTitle("ACHTUNG");
-         alert.setHeaderText("Keine CSV vorhanden");
+         alert.setHeaderText("Keine CSV-Datei vorhanden");
          alert.setContentText("Pflanzen werden nun zufällig generiert");
          alert.showAndWait();
+
+         new ErstelleDaten().createFarm();
+         new Funktionen().saveCSV();
       }
-      new ErstelleDaten().createFarm();
+      else
+      {
+         try
+         {
+            maisFeld.clear();
+            weizenFeld.clear();
+            new LeseAusDatei().leseCsv();
+            refreshInfo();
+         }
+         catch(IOException e)
+         {
+            System.err.println(e);
+         }
+      }
 
       clickedButton = "gesamt";
       btn_gesamt.getStyleClass().add("clicked");
@@ -99,7 +118,8 @@ public class ViewController
       btn_weizen.getStyleClass().remove("clicked");
       btn_gesamt.getStyleClass().remove("clicked");
 
-      showMaisStats();
+      showStats();
+      // showMaisStats();
       refreshInfo();
    }
 
@@ -111,7 +131,8 @@ public class ViewController
       btn_mais.getStyleClass().remove("clicked");
       btn_gesamt.getStyleClass().remove("clicked");
 
-      showWeizenStats();
+      showStats();
+      // showWeizenStats();
       refreshInfo();
    }
 
@@ -123,37 +144,69 @@ public class ViewController
       btn_mais.getStyleClass().remove("clicked");
       btn_weizen.getStyleClass().remove("clicked");
 
-      showGesamtStats();
+      showStats();
+      //showGesamtStats();
       refreshInfo();
    }
 
-   private void showMaisStats()
+   private void showStats()
    {
-      if( maisFeld.size() != 0 )
+      switch( clickedButton )
       {
-         fillBarChart("Mais");
+         case "mais":
+            if( maisFeld.size() != 0 )
+            {
+               fillBarChart("Mais");
+            }
+            break;
+         case "weizen":
+            if( weizenFeld.size() != 0 )
+            {
+               fillBarChart("Weizen");
+            }
+            break;
+         case "gesamt":
+            if( weizenFeld.size() != 0 )
+            {
+               fillBarChart("Weizen");
+            }
+            if( maisFeld.size() != 0 )
+            {
+               fillBarChart("Mais");
+            }
+            break;
       }
    }
 
-   private void showWeizenStats()
-   {
-      if( weizenFeld.size() != 0 )
+   /*
+      private void showMaisStats()
       {
-         fillBarChart("Weizen");
+         if( maisFeld.size() != 0 )
+         {
+            fillBarChart("Mais");
+         }
       }
-   }
 
-   private void showGesamtStats()
-   {
-      if( weizenFeld.size() != 0 )
+      private void showWeizenStats()
       {
-         fillBarChart("Weizen");
+         if( weizenFeld.size() != 0 )
+         {
+            fillBarChart("Weizen");
+         }
       }
-      if( maisFeld.size() != 0 )
+
+      private void showGesamtStats()
       {
-         fillBarChart("Mais");
+         if( weizenFeld.size() != 0 )
+         {
+            fillBarChart("Weizen");
+         }
+         if( maisFeld.size() != 0 )
+         {
+            fillBarChart("Mais");
+         }
       }
-   }
+   */
 
    private void giessePflanzen(ActionEvent actionEvent)
    {
@@ -179,9 +232,9 @@ public class ViewController
       if( (maisFeld.size() == Spezifikationen.Feld.getMaximaleFeldGroesse()) || (weizenFeld.size() == Spezifikationen.Feld
             .getMaximaleFeldGroesse()) )
       {
-         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         Alert alert = new Alert(Alert.AlertType.ERROR);
          alert.setTitle("ERROR");
-         alert.setHeaderText(clickedButton + "feld(er) haben keinen Platz mehr");
+         alert.setHeaderText(clickedButton + "-feld(er) haben keinen Platz mehr");
          alert.setContentText("Maximalgröße beträgt " + Spezifikationen.Feld.getMaximaleFeldGroesse());
          alert.showAndWait();
       }
@@ -323,6 +376,8 @@ public class ViewController
 
       mytask = new TimerTask()
       {
+         int zaehler = 0;
+
          @Override
          public void run()
          {
@@ -390,5 +445,3 @@ public class ViewController
    }
 
 }
-
-
