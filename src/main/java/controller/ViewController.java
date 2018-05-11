@@ -76,8 +76,8 @@ public class ViewController
 
       if( !datei.exists() )
       {
-         Alert alert = new Alert(Alert.AlertType.ERROR);
-         alert.setTitle("ACHTUNG");
+         Alert alert = new Alert(Alert.AlertType.WARNING);
+         alert.setTitle("Info");
          alert.setHeaderText("Keine CSV-Datei vorhanden");
          alert.setContentText("Pflanzen werden nun zufällig generiert");
          alert.showAndWait();
@@ -87,6 +87,12 @@ public class ViewController
       }
       else
       {
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         alert.setTitle("Info");
+         alert.setHeaderText("CSV-Datei gefunden");
+         alert.setContentText("Pflanzen werden aus Datei eingelesen");
+         alert.showAndWait();
+
          try
          {
             maisFeld.clear();
