@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import javafx.scene.control.Alert;
 import nutzpflanzen.Pflanze;
 
 import static dao.dateien.DateiConfig.datei;
@@ -70,11 +69,13 @@ public class SchreibeInDatei
          }
       }
       System.out.println("*.csv Datei geschrieben");
+      /*
       Alert alert = new Alert(Alert.AlertType.INFORMATION);
       alert.setTitle("DAO");
       alert.setHeaderText("Schreibe in CSV-Datei");
       alert.setContentText("Mit " + "\"" + pflanzenName[1] + "\"" + " befüllt");
       alert.showAndWait();
+       */
    }
 
 }

@@ -22,7 +22,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import nutzpflanzen.Pflanze;
-import nutzpflanzen.Spezifikationen;
 
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
@@ -92,6 +91,10 @@ public class ViewController
          alert.showAndWait();
 
          new ErstelleDaten().createFarm();
+         System.out.println();
+         System.out.println("Maisfeld hat " + maisFeld.size() + " Maiskölbchen");
+         System.out.println("Weizenfeld hat " + weizenFeld.size() + " Weizendinger");
+         System.out.println("Insgesamt hast du " + (weizenFeld.size() + maisFeld.size()) + " Pflanzen");
          new Funktionen().saveCSV();
       }
       else
@@ -210,7 +213,7 @@ public class ViewController
 
    private void saeePflanzen(ActionEvent actionEvent)
    {
-
+      /*
       if( (maisFeld.size() == Spezifikationen.Feld.getMaximaleFeldGroesse()) || (weizenFeld.size() == Spezifikationen.Feld
             .getMaximaleFeldGroesse()) )
       {
@@ -220,7 +223,7 @@ public class ViewController
          alert.setContentText("Maximalgröße beträgt " + Spezifikationen.Feld.getMaximaleFeldGroesse());
          alert.showAndWait();
       }
-
+      */
       switch( clickedButton )
       {
          case "mais":
@@ -268,6 +271,10 @@ public class ViewController
    private void clickedSaveCsv(ActionEvent actionEvent)
    {
       new Funktionen().saveCSV();
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("DAO");
+      alert.setHeaderText("Schreibe in CSV-Datei");
+      alert.showAndWait();
    }
 
    private void fillBarChart(String pflanzenart)

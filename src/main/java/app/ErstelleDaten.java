@@ -52,10 +52,5 @@ public class ErstelleDaten
    {
       createMaisFeld(maisFeld);
       createWeizenFeld(weizenFeld);
-
-      System.out.println();
-      System.out.println("Maisfeld hat " + maisFeld.size() + " Maiskölbchen");
-      System.out.println("Weizenfeld hat " + weizenFeld.size() + " Weizendinger");
-      System.out.println("Insgesamt hast du " + (weizenFeld.size() + maisFeld.size()) + " Pflanzen");
    }
 }

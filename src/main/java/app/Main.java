@@ -45,6 +45,7 @@ public class Main extends Application
       primaryStage.show();
 
       /*
+      // Handling beim Beenden
       primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
       {
          int anzahlZeilen;
