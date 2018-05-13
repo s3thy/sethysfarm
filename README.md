@@ -1,4 +1,7 @@
 # sethysfarm
+
 Sethys kleine Farm
 
-ein paar kleine Übungen mit JavaFX, etc.
+Ein paar kleine Übungen mit JavaFX, etc.
+
+Bitte als Maven Projekt importieren
