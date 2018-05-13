@@ -12,6 +12,14 @@ import javafx.stage.Stage;
  * Logindaten fuer die Farm:<br>
  * Name: ""<br>
  * PW: ""<br>
+ * <p>
+ * In der Haupt-View kann man mit den obigen Buttons auswaehlen,
+ * welches Feld man bearbeiten möchte.<br>
+ * Zusaetzlich kann man mit den Buttons links das ausgewaehlte Feld
+ * bearbeiten.<br>
+ * Entweder jede Aktion einzeln oder solange man AUTO gedrueckt haelt,
+ * laufen alle Aktionen der Reihe nach ab.
+ * </p>
  *
  * @author sethy, sec@shd.de
  */
