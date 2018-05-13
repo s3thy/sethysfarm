@@ -15,7 +15,7 @@ import static dao.dateien.DateiConfig.datei;
 
 /**
  * Auslesen der Farm Daten aus einer CSV Datei.<br>
- * Daten werden in zwei Listen geschrieben und ausgegeben.<br>
+ * Daten werden in zwei Listen geschrieben und ggf. ausgegeben.<br>
  *
  * @author sethy, sec@shd.de
  */

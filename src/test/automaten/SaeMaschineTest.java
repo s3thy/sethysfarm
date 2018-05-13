@@ -12,6 +12,11 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+/**
+ * Test fuer die Saemaschine
+ *
+ * @author sethy, sec@shd.de
+ */
 public class SaeMaschineTest
 {
    List<Pflanze> maisTestFeld = new ArrayList();

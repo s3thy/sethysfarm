@@ -11,6 +11,11 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
+/**
+ * Test fuer die Giessmaschine
+ *
+ * @author sethy, sec@shd.de
+ */
 public class GiessMaschineTest
 {
    List<Pflanze> maisTestFeld = new ArrayList();

@@ -9,7 +9,7 @@ import nutzpflanzen.Pflanze;
  * Die Methode "arbeiten" fuehrt die Aktion,
  * der jeweiligen Maschinen aus.<br>
  * Die "SaeMaschine"-Klasse erwartet zusaetzlich
- * einen Pflanzenart.<br>
+ * eine Pflanzenart.<br>
  *
  * @author sethy, sec@shd.de
  */

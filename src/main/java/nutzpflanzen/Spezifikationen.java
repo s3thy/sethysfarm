@@ -1,7 +1,7 @@
 package nutzpflanzen;
 
 /**
- * Diverse Vorgaben fuer Feld und Pflanze.<br>
+ * Vorgaben fuer Feld und Pflanze.<br>
  *
  * @author sethy, sec@shd.de
  */

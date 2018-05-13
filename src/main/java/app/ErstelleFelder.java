@@ -12,9 +12,7 @@ import nutzpflanzen.Weizen;
  * Hiermit erstellen wir zufällig Daten für unsere Felder.<br>
  * Maximale Groesse eines Feldes entspricht dem Wert, der
  * in der Enum-Klasse "Spezifikationen" hinterlegt worden ist.<br>
- * Fuer jede Getreideart wird jeweils eine Liste angelegt,
- * die entweder mit der Pflanzen der Sorte "Mais" oder "Weizen"
- * befüllt werden.<br>
+ * Fuer jede Getreideart wird jeweils eine Liste angelegt.<br>
  *
  * @author sethy, sec@shd.de
  */

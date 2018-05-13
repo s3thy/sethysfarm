@@ -10,7 +10,7 @@ import static app.ErstelleFelder.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
 
 /**
- * Einige usgelagerte Methoden fuer den ViewController<br>
+ * Einige ausgelagerte Methoden fuer den ViewController<br>
  *
  * @author sethy, sec@shd.de
  */

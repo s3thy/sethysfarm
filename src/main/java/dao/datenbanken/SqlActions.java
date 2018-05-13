@@ -16,7 +16,7 @@ import static app.ErstelleFelder.weizenFeld;
 
 /**
  * Schreiben und Lesen aus einer Datenbank.<br>
- * In meinem Beispiel wird mysql als dbms benutzt.<br>
+ * In meinem Beispiel wird mysql als DBMS benutzt.<br>
  *
  * @author sethy, sec@shd.de
  */

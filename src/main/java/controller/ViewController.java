@@ -36,7 +36,7 @@ import static funktionen.Werkzeuge.format;
 /**
  * ViewController.<br>
  * Hier weisen wir den Buttons Methoden und Funktionen zu.<br>
- * Funktionen einzelner Methoden sind hier definiert.<br>
+ * Methoden bzgl. der Buttons sind hier definiert.<br>
  *
  * @author sethy, sec@shd.de
  */

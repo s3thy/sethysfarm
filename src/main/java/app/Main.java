@@ -15,10 +15,10 @@ import javafx.stage.Stage;
  * <p>
  * In der Haupt-View kann man mit den obigen Buttons auswaehlen,
  * welches Feld man bearbeiten möchte.<br>
- * Zusaetzlich kann man mit den Buttons links das ausgewaehlte Feld
+ * Zusaetzlich kann man mit den Buttons links das oben ausgewaehlte Feld
  * bearbeiten.<br>
- * Entweder jede Aktion einzeln oder solange man AUTO gedrueckt haelt,
- * laufen alle Aktionen der Reihe nach ab.
+ * Entweder jede Aktion einzeln oder es laufen, solange man AUTO gedrueckt haelt,
+ * alle Aktionen der Reihe nach ab.
  * </p>
  *
  * @author sethy, sec@shd.de
@@ -44,7 +44,7 @@ public class Main extends Application
       primaryStage.setResizable(false);
       primaryStage.show();
 
-      // CSS wird in der FXML geladen
+      // CSS wird mit der FXML geladen
       // scene.getStylesheets().add(getClass().getResource("/views/login.css").toExternalForm());
 
       LoginController loginController = loader.getController();

@@ -23,7 +23,7 @@ public class Funktionen
 
    /**
     * twerkStage() laesst bei Eingabe falscher Logindaten
-    * das Fenster als Hinweis "twerken".<br>
+    * das Fenster als Hinweis kurz "twerken".<br>
     *
     * @author sethy, sec@shd.de
     */

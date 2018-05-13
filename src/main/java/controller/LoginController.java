@@ -8,7 +8,7 @@ import javafx.scene.control.TextField;
 
 /**
  * LoginController.<br>
- * Ubernimmt nur die Loginfunktion.<br>
+ * Uebernimmt die Loginfunktion.<br>
  *
  * @author sethy, sec@shd.de
  */
