@@ -18,7 +18,6 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -59,7 +58,6 @@ public class ViewController
    public TextArea txt_ausgabeWeizen;
    public TextArea txt_anzahl;
    public TextArea txt_console;
-   public PieChart piechart;
 
    List<Automat> johnDeere = new ArrayList<Automat>();
 
@@ -85,7 +83,7 @@ public class ViewController
       btn_opencsv.setOnAction(this::clickedOpenCsv);
       btn_savecsv.setOnAction(this::clickedSaveCsv);
       btn_opensql.setOnAction(this::clickedOpenSql);
-      btn_opensql.setOnAction(this::clickedSaveSql);
+      btn_savesql.setOnAction(this::clickedSaveSql);
 
       // jetzt generieren wir Daten und speichern diese in eine Datei bzw.
       // lesen die Datei aus, wenn bereits vorhanden
@@ -145,6 +143,7 @@ public class ViewController
    private void clickedSaveSql(ActionEvent actionEvent)
    {
       new Funktionen().saveSQL();
+      System.out.println("click");
    }
 
    // Handling beim Beenden des View Fensters
