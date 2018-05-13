@@ -22,16 +22,15 @@ public class GiessMaschine implements Automat
    @Override
    public void arbeiten(List<Pflanze> meinePflanzen)
    {
-      giessen(meinePflanzen);
+         giessen(meinePflanzen);
 
-      for( Pflanze pflanze : meinePflanzen )
-      {
-         if( istErntbar(pflanze) )
+         for( Pflanze pflanze : meinePflanzen )
          {
-            System.out.println("Du kannst bereits Pflanzen ernten");
+            if( istErntbar(pflanze) )
+            {
+               System.out.println("Du kannst bereits Pflanzen ernten");
+            }
          }
-      }
-
    }
 
    @Override

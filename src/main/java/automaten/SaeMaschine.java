@@ -34,16 +34,16 @@ public class SaeMaschine implements Automat
    @Override
    public void arbeiten(List<Pflanze> meinePflanzen, String pflanzenart)
    {
-      if( !PflanzenKontrolle.hatFeldMaxErreicht(meinePflanzen) )
-      {
-         int maxFeldGroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();
-         int aktuelleFeldGroesse = meinePflanzen.size();
-         int differenz = maxFeldGroesse - aktuelleFeldGroesse;
-
-         for( int i = 0; i < differenz; i++ )
+         if( !PflanzenKontrolle.hatFeldMaxErreicht(meinePflanzen) )
          {
-            saeen(meinePflanzen, pflanzenart);
+            int maxFeldGroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();
+            int aktuelleFeldGroesse = meinePflanzen.size();
+            int differenz = maxFeldGroesse - aktuelleFeldGroesse;
+
+            for( int i = 0; i < differenz; i++ )
+            {
+               saeen(meinePflanzen, pflanzenart);
+            }
          }
-      }
    }
 }
