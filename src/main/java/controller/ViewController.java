@@ -32,7 +32,6 @@ import static funktionen.Werkzeuge.format;
 /**
  * ViewController.<br>
  * Hier weisen wir den Buttons Methoden und Funktionen zu.<br>
- * Enthaelt Methoden fuer die Ein- un Ausgabe von Informationen uber die Farm.<br>
  *
  * @author sethy, sec@shd.de
  */
