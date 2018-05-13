@@ -346,6 +346,7 @@ public class ViewController
       mytask = null;
       timer.cancel();
       timer = null;
+      new Funktionen().saveCSV();
    }
 
    private void starteAlleAutomaten(MouseEvent actionEvent)
