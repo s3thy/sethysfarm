@@ -1,19 +1,32 @@
 package app;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
+import automaten.Automat;
+import automaten.ErnteMaschine;
+import automaten.GiessMaschine;
+import automaten.SaeMaschine;
+import dao.dateien.LeseAusDatei;
+import nutzpflanzen.Mais;
 import nutzpflanzen.Pflanze;
+import nutzpflanzen.Weizen;
 
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
+import static funktionen.Werkzeuge.format;
 
 /**
- * Ein Konsolen-Programm zum reinen Testen der Farm-Klassen und -Methoden
+ * Ein Konsolen-Programm zum Testen der Farm-Klassen und -Methoden
  * unabhaengig von der GUI.<br>
  *
  * @author sethy, sec@shd.de
@@ -22,185 +35,196 @@ public class ConsoleOut
 {
    public static void main(String[] args)
    {
-      new ErstelleDaten().createFarm();
+      System.out.println("\nWillkommen auf Sethys kleiner Farm");
+      System.out.println("----------------------------------\n");
 
-      int anzahlMais = maisFeld.size();
-      int anzahlWeizen = weizenFeld.size();
-      int lfn = 0;
+      checkFile();
+      farmMachines();
 
-      if( datei.exists() )
+   }
+
+   private static void checkFile()
+   {
+      // Datei mit den Feldern angelegt?
+      // Wenn NEIN, Daten generieren und in csv speichern
+      if( !datei.exists() )
+      {
+         System.out.println("Herje! Noch nichts da? Kein Problem, Du bekommst jetzt einfach mal was");
+         new ErstelleDaten().createFarm();
+         saveCSV();
+      }
+      // Wenn JA, auslesen
+      else
+      {
+         System.out.println("Oha, da haben wir ja bereits ein paar Pflanzen. Komm' mit, ich zeige die Dir\n");
+         try
+         {
+            new LeseAusDatei().leseCsv();
+
+            BufferedReader br = null;
+            try
+            {
+               br = new BufferedReader(new FileReader(datei));
+            }
+            catch(FileNotFoundException e)
+            {
+               System.err.println(e);
+            }
+
+            String currLine;
+            maisFeld.clear();
+            weizenFeld.clear();
+
+            while( (currLine = br.readLine()) != null )
+            {
+               String[] currLineSplit = currLine.split(";");
+               int laufendeNummer = Integer.parseInt(currLineSplit[0]);
+               String pflanzenArt = currLineSplit[1];
+               double pflanzenHoehe = Double.parseDouble(currLineSplit[2]);
+
+               System.out.println(laufendeNummer + " " + pflanzenArt + " " + format(pflanzenHoehe));
+
+               if( pflanzenArt.equals("Mais") )
+               {
+                  maisFeld.add(new Mais(pflanzenHoehe));
+               }
+               if( pflanzenArt.equals("Weizen") )
+               {
+                  weizenFeld.add(new Weizen(pflanzenHoehe));
+               }
+            }
+            System.out.println("");
+            System.out.println("Wir haben " + maisFeld.size() + " Maiskölbchen und " + weizenFeld.size() + " Weizenhalme.\n");
+            br.close();
+         }
+         catch(IOException e)
+         {
+            System.err.println(e);
+         }
+      }
+   }
+
+   private static void farmMachines()
+   {
+      // Starten wir mal unsere Maschinen und fangen mit der Arbeit an.
+      // In einer Liste sind anstehende Aufgaben, die abgearbeitet werden muessen.
+      List<Automat> johnDeere = new ArrayList<Automat>();
+      johnDeere.add(new SaeMaschine());
+      johnDeere.add(new GiessMaschine());
+      johnDeere.add(new ErnteMaschine());
+
+      // Jemand muss nun endlich arbeiten
+      System.out.println("Ja, jetzt wird wieder in die Hände gespuckt\n" +
+                         "Wir steigern das Bruttosozialprodukt\n" +
+                         "Ja, ja, ja, jetzt wird wieder in die Hände gespuckt\n");
+
+      new Thread(() -> {
+         for( Automat automat : johnDeere )
+         {
+            automat.arbeiten(maisFeld);
+            if( automat instanceof SaeMaschine )
+            {
+               new SaeMaschine().arbeiten(maisFeld, "Mais");
+               System.out.println("Maiskölbchen nach Arbeit: " + maisFeld.size());
+            }
+         }
+      }).start();
+
+      new Thread(() -> {
+         for( Automat automat : johnDeere )
+         {
+            automat.arbeiten(weizenFeld);
+            if( automat instanceof SaeMaschine )
+            {
+               new SaeMaschine().arbeiten(weizenFeld, "Weizen");
+               System.out.println("Weizenhalme nach Arbeit: " + weizenFeld.size());
+            }
+         }
+      }).start();
+   }
+
+   private static void saveCSV()
+   {
+      if( ((maisFeld.size() == 0)) && (weizenFeld.size() == 0) )
+      {
+         System.out.println("Leere Felder kann man nicht speichern");
+      }
+      if( datei.exists() && (((maisFeld.size() != 0)) || (weizenFeld.size() != 0)) )
       {
          datei.delete();
          System.out.println("Alte Datei wurde gelöscht");
       }
-
-      for( Pflanze pflanze : maisFeld )
+      if( maisFeld.size() > 0 )
       {
-         lfn++;
-         // System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
+         schreibeCsv(maisFeld);
+         System.out.println(maisFeld.size() + " Maiskölbchen in CSV festgehalten");
       }
-
-      for( Pflanze pflanze : weizenFeld )
+      else
       {
-         lfn++;
-         // System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
+         System.out.println("Maisfeld ist leer");
       }
-
-      // new SchreibeInDatei().schreibeCsv(maisFeld);
-
-      // new SchreibeInDatei().schreibeCsv(weizenFeld);
-
-
-      // Use Java Collections to create the List.
-      List<String> list = new ArrayList();
-
-      for( Pflanze pflanze : maisFeld )
+      if( weizenFeld.size() > 0 )
       {
-         lfn++;
-         // System.out.println(lfn + " " + String.valueOf(pflanze.getClass()));
-         list.add(String.valueOf(pflanze.getHoehe()));
+         schreibeCsv(weizenFeld);
+         System.out.println(weizenFeld.size() + " Weizenhalme in CSV festgehalten");
       }
-
-      // Now add observability by wrapping it with ObservableList.
-      ObservableList<String> observableList = FXCollections.observableList(list);
-      observableList.addListener(new ListChangeListener()
+      else
       {
-
-         @Override
-         public void onChanged(ListChangeListener.Change change)
-         {
-            System.out.println("Detected a change! ");
-         }
-      });
-
-      // Changes to the observableList WILL be reported.
-      // This line will print out "Detected a change!"
-      /// observableList.add("item one");
-
-      // Changes to the underlying list will NOT be reported
-      // Nothing will be printed as a result of the next line.
-      /// list.add("item two");
-
-      System.out.println("Size: " + observableList.size());
-
-      for( String s : observableList )
-      {
-         System.out.println(s.toString());
+         System.out.println("Weizenfeld ist leer");
       }
-
-/*
-      String url = "jdbc:mysql://localhost:3306/";
-      String user = "sethy";
-      String pw = "sethy";
-
-      Connection myConn = null;
-      Statement statement = null;
-      // ResultSet resultSet = null;
-      PreparedStatement ps = null;
-
-      // String createSchema = "CREATE SCHEMA IF NOT EXISTS Sethy";
-
-      String createDatabase = "CREATE DATABASE IF NOT EXISTS SethysFarm;";
-
-      String createTable = "CREATE TABLE IF NOT EXISTS SethysFarm.meinePflanzen (\n"
-                           + "	PflanzenID integer PRIMARY KEY,\n"
-                           + "	Pflanzenart text NOT NULL,\n"
-                           + "	Hoehe real\n"
-                           + ");";
-
-      String insertPlants = "INSERT INTO SethysFarm.meinePflanzen (PflanzenID, Pflanzenart, Hoehe) VALUES (?,?,?)";
-
-      try
-      {
-         myConn = DriverManager.getConnection(url, user, pw);
-         statement = myConn.createStatement();
-
-         // statement.execute(createSchema);
-         statement.execute(createDatabase);
-         statement.execute(createTable);
-         ps = myConn.prepareStatement(insertPlants);
-
-         for( Pflanze pflanze : maisFeld )
-         {
-            lfn++;
-            ps.setInt(1, lfn);
-            ps.setString(2, "Mais_" + lfn);
-            ps.setDouble(3, pflanze.getHoehe());
-            int rowOfTable = ps.executeUpdate();
-         }
-
-*/
-       /*  while( rowOfTable.next() )
-         {
-
-         }
-*/
-      // statement.execute(createDatabase);
-      // statement.execute(createTable);
-      // statement.execute(insertPlants);
- /*     catch(Exception exc)
    }
+
+   private static void schreibeCsv(List<Pflanze> meinePflanzen)
+   {
+      int lfn = 0;
+
+      if( datei.exists() )
       {
-         exc.printStackTrace();
-      }
-      finally
-      {
-         if( myConn != null )
+         try
          {
-            try
-            {
-               myConn.close();
-            }
-            catch(Exception e)
-            {
-            }
+            lfn = new LeseAusDatei().leseCsv();
+         }
+         catch(IOException e)
+         {
+            System.err.println(e);
          }
       }
-*/
-      /*
-      weizenFeld.get(0).setHoehe(101.0);
-      System.out.println(weizenFeld.get(0).getHoehe());
-      System.out.println(weizenFeld.size());
-      System.out.println(PflanzenKontrolle.hatFeldMaxErreicht(weizenFeld));
-      new ErnteMaschine().arbeiten(weizenFeld);
-      new SaeMaschine().arbeiten(weizenFeld, "wEizEn");
-      System.out.println(weizenFeld.size());
-      */
-/*
-      System.out.println();
 
-      for( Pflanze pflanze : weizenFeld )
+      StringBuilder pflanzen = null;
+
+      String className = "";
+      String[] pflanzenName = null;
+
+      for( Pflanze pflanze : meinePflanzen )
       {
-         System.out.println("weizen hat höhe: " + pflanze.getHoehe() + ", " + istErntbar(pflanze) + ", ");
+         lfn++;
+         pflanzen = new StringBuilder();
+         className = String.valueOf(pflanze.getClass());
+         pflanzenName = className.split(Pattern.quote("."));
+
+         pflanzen.append(lfn);
+         pflanzen.append(';');
+         pflanzen.append(pflanzenName[1]);
+         pflanzen.append(';');
+         pflanzen.append(pflanze.getHoehe());
+         pflanzen.append(';');
+
+         try
+         {
+            FileWriter fw = new FileWriter(datei, true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter out = new PrintWriter(bw);
+            out.println(pflanzen.toString());
+            out.flush();
+            out.close();
+         }
+         catch(Exception e)
+         {
+            System.err.println(e);
+         }
       }
-
-      System.out.println();
-
-      for( Pflanze pflanze : maisFeld )
-      {
-         System.out.println("mais hat höhe: " + pflanze.getHoehe() + ", " + istErntbar(pflanze) + ", ");
-      }
-
-      System.out.println();
-*/
-      /*
-      System.out.println("\nWeizen Feldgroesse vor dem Ernten: " + weizenFeld.size());
-      new ErnteMaschine().arbeiten(weizenFeld);
-      System.out.println("\nWeizen Feldgroesse nach dem Ernten: " + weizenFeld.size());
-
-      System.out.println("\nMais Feldgroesse vor dem Ernten: " + maisFeld.size());
-      new ErnteMaschine().arbeiten(maisFeld);
-      System.out.println("\nMais Feldgroesse nach dem Ernten: " + maisFeld.size());
-
-      System.out.println("\nWeizen Feldgroesse vor dem Saeen: " + weizenFeld.size());
-      new SaeMaschine().arbeiten(weizenFeld, "Mais");
-      System.out.println("\nWeizen Feldgroesse nach dem Saeen: " + weizenFeld.size());
-
-      System.out.println("\nMais Feldgroesse vor dem Saeen: " + maisFeld.size());
-      new SaeMaschine().arbeiten(maisFeld, "Mais");
-      System.out.println("\nMais Feldgroesse nach dem Saeen: " + maisFeld.size());
-      */
-
+      System.out.println("*.csv Datei geschrieben");
    }
 }
+
 

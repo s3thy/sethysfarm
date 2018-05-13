@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<jnlp xmlns:jfx="http://javafx.com" spec="1.0" href="SethysFarm.jnlp">
-    <information>
-        <title>SethysFarm</title>
-        <vendor>Unknown</vendor>
-        <description>SethysFarm</description>
-        <offline-allowed/>
-    </information>
-    <resources>
-        <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
-        <jar href="SethysFarm.jar" size="536012" download="eager"/>
-    </resources>
-    <jfx:javafx-desc width="600" height="400" main-class="app.Main" name="SethysFarm"/>
-    <update check="background"/>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="SethysFarm.jnlp">
+  <information>
+    <title>SethysFarm</title>
+    <vendor>Unknown</vendor>
+    <description>SethysFarm</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="SethysFarm.jar" size="533083" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="600" height="400" main-class="app.Main"  name="SethysFarm" />
+  <update check="background"/>
 </jnlp>

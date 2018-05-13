@@ -48,7 +48,7 @@ public class LeseAusDatei
          double pflanzenHoehe = Double.parseDouble(currLineSplit[2]);
 
          anzahlZeilen++;
-         System.out.println(laufendeNummer + " " + pflanzenArt + " " + format(pflanzenHoehe));
+         // System.out.println(laufendeNummer + " " + pflanzenArt + " " + format(pflanzenHoehe));
 
          if( pflanzenArt.equals("Mais") )
          {
@@ -59,7 +59,7 @@ public class LeseAusDatei
             weizenFeld.add(new Weizen(pflanzenHoehe));
          }
       }
-      System.out.println("\n" + anzahlZeilen + " Zeilen in CSV-Datei");
+      // System.out.println("\n" + anzahlZeilen + " Zeilen in CSV-Datei");
       br.close();
       return anzahlZeilen;
    }
