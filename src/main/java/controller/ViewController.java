@@ -82,10 +82,10 @@ public class ViewController
       btn_weizen.setOnAction(this::clickedWeizen);
       btn_gesamt.setOnAction(this::clickedGesamt);
 
-      btn_opensql.setOnAction(Event -> new Funktionen().openSQL());
-      btn_savesql.setOnAction(Event -> new Funktionen().saveSQL());
       btn_opencsv.setOnAction(this::clickedOpenCsv);
       btn_savecsv.setOnAction(this::clickedSaveCsv);
+      btn_opensql.setOnAction(this::clickedOpenSql);
+      btn_opensql.setOnAction(this::clickedSaveSql);
 
       // jetzt generieren wir Daten und speichern diese in eine Datei bzw.
       // lesen die Datei aus, wenn bereits vorhanden
@@ -134,6 +134,17 @@ public class ViewController
 
       refreshInfo();
       saveOnQuit();
+   }
+
+   private void clickedOpenSql(ActionEvent actionEvent)
+   {
+      new Funktionen().openSQL();
+      refreshInfo();
+   }
+
+   private void clickedSaveSql(ActionEvent actionEvent)
+   {
+      new Funktionen().saveSQL();
    }
 
    // Handling beim Beenden des View Fensters

@@ -9,7 +9,9 @@ import java.sql.Statement;
 import com.mysql.jdbc.exceptions.jdbc4.CommunicationsException;
 import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import javafx.scene.control.Alert;
+import nutzpflanzen.Mais;
 import nutzpflanzen.Pflanze;
+import nutzpflanzen.Weizen;
 
 import static app.ErstelleFelder.maisFeld;
 import static app.ErstelleFelder.weizenFeld;
@@ -69,6 +71,8 @@ public class SqlActions
    {
       String dropDaBase = "DROP DATABASE IF EXISTS sethysfarm;";
 
+      String dropTable = "DROP TABLE IF EXISTS sethysfarm.meinePflanzen;";
+
       String createDatabase = "CREATE DATABASE IF NOT EXISTS sethysfarm;";
 
       String createTable = "CREATE TABLE IF NOT EXISTS sethysfarm.meinePflanzen (\n"
@@ -84,6 +88,7 @@ public class SqlActions
          buildConnection();
 
          statement.execute(dropDaBase);
+         statement.execute(dropTable);
          statement.execute(createDatabase);
          statement.execute(createTable);
          ps = myConn.prepareStatement(insertPlants);
@@ -97,7 +102,8 @@ public class SqlActions
             lfn++;
             lnfMais++;
             ps.setInt(1, lfn);
-            ps.setString(2, "Mais_" + lnfMais);
+            //ps.setString(2, "Mais_" + lnfMais);
+            ps.setString(2, "Mais");
             ps.setDouble(3, pflanze.getHoehe());
             int rowOfTable = ps.executeUpdate();
          }
@@ -107,7 +113,8 @@ public class SqlActions
             lfn++;
             lfnWeizen++;
             ps.setInt(1, lfn);
-            ps.setString(2, "Weizen_" + lfnWeizen);
+            //ps.setString(2, "Weizen_" + lfnWeizen);
+            ps.setString(2, "Weizen");
             ps.setDouble(3, pflanze.getHoehe());
             int rowOfTable = ps.executeUpdate();
          }
@@ -145,10 +152,24 @@ public class SqlActions
          statement = myConn.createStatement();
          rs = statement.executeQuery("select * from SethysFarm.meinePflanzen");
 
+         maisFeld.clear();
+         weizenFeld.clear();
+
          while( rs.next() )
          {
 
-            System.out.println(rs.getString("Pflanzenart"));
+            String str = rs.getString("Pflanzenart");
+            double h = rs.getDouble("Hoehe");
+            //System.out.println(rs.getString("Pflanzenart"));
+
+            if( str.equals("Mais") )
+            {
+               maisFeld.add(new Mais(h));
+            }
+            else
+            {
+               weizenFeld.add(new Weizen(h));
+            }
          }
       }
       catch(CommunicationsException e)
