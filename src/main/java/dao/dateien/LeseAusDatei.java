@@ -14,6 +14,12 @@ import static app.ErstelleDaten.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
 import static funktionen.Werkzeuge.format;
 
+/**
+ * Auslesen der Farm Daten aus einer CSV Datei.<br>
+ * Daten werden in zwei Listen geschrieben und ausgegeben.<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class LeseAusDatei
 {
    public int leseCsv() throws IOException
@@ -52,25 +58,6 @@ public class LeseAusDatei
          {
             weizenFeld.add(new Weizen(pflanzenHoehe));
          }
-/*
-         try
-         {
-            Pflanze pflanze = (Pflanze) Class.forName("nutzpflanzen." + currLineSplit[1]).newInstance();
-         }
-         catch(InstantiationException e)
-         {
-            System.err.println(e);
-         }
-         catch(IllegalAccessException e)
-         {
-            System.err.println(e);
-         }
-         catch(ClassNotFoundException e)
-         {
-            System.err.println(e);
-         }
-*/
-
       }
       System.out.println("\n" + anzahlZeilen + " Zeilen in CSV-Datei");
       br.close();

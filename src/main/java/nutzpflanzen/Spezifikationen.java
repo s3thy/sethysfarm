@@ -1,5 +1,10 @@
 package nutzpflanzen;
 
+/**
+ * Diverse Vorgaben fuer Feld und Pflanze.<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public enum Spezifikationen
 {
    Mais(100.0), Weizen(100.0), Feld(50);

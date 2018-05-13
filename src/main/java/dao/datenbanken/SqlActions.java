@@ -14,9 +14,16 @@ import nutzpflanzen.Pflanze;
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
 
+/**
+ * Schreiben und Lesen aus einer Datenbank.<br>
+ * In meinem Beispiel wird mysql als dbms benutzt.<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class SqlActions
 {
-   String url = "jdbc:mysql://localhost:3306/";
+   String dbms = "mysql";
+   String url = "jdbc:" + dbms + "://localhost:3306/";
    String user = "sethy";
    String pw = "sethy";
 
@@ -25,6 +32,12 @@ public class SqlActions
    PreparedStatement ps;
    ResultSet rs;
 
+
+   /**
+    * Aufbau einer Verbindung zum DBMS
+    *
+    * @author sethy, sec@shd.de
+    */
    public void buildConnection()
    {
       try
@@ -47,6 +60,11 @@ public class SqlActions
 
    }
 
+   /**
+    * Befuellen der Datenbank
+    *
+    * @author sethy, sec@shd.de
+    */
    public void writeSQL()
    {
       String dropDaBase = "DROP DATABASE IF EXISTS sethysfarm;";
@@ -96,7 +114,7 @@ public class SqlActions
       }
       catch(Exception e1)
       {
-         e1.printStackTrace();
+         System.err.println(e1);
       }
       finally
       {
@@ -108,11 +126,17 @@ public class SqlActions
             }
             catch(Exception e2)
             {
+               System.err.println(e2);
             }
          }
       }
    }
 
+   /**
+    * Auslesen der Datenbank
+    *
+    * @author sethy, sec@shd.de
+    */
    public void readSQL()
    {
       try

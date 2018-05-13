@@ -7,6 +7,14 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+/**
+ * Main-Programm und GUI des Farm Projekts.<br>
+ * Logindaten fuer die Farm:<br>
+ * Name: ""<br>
+ * PW: ""<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class Main extends Application
 {
    public static Stage primaryStage;

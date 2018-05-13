@@ -36,22 +36,12 @@ public class ErnteMaschineTest
 
 
    @Test
-   public void arbeiten()
+   public void arbeitenTest()
    {
       new ErnteMaschine().arbeiten(maisTestFeldErntbar);
-
-      //for( Pflanze maiskolben : maisTestFeldNichtErntbar )
-      //{
-      //   assertFalse(istErntbar(maiskolben));
-      //}
       assertEquals(maisTestFeldNichtErntbar.size(), 3);
 
       new ErnteMaschine().arbeiten(maisTestFeldErntbar);
-
-      //for( Pflanze maiskolben : maisTestFeldErntbar )
-      //{
-      //   assertTrue(istErntbar(maiskolben));
-      //}
       assertEquals(maisTestFeldErntbar.size(), 0);
    }
 

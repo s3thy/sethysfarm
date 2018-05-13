@@ -16,17 +16,11 @@ public class SaeMaschine implements Automat
 
       if( pflanzenart.toLowerCase().equals("mais") )
       {
-         // for( int i = meinePflanzen.size(); i < Spezifikationen.Feld.getMaximaleFeldGroesse(); i++ )
-         // {
          meinePflanzen.add(new Mais(zufallshoehe));
-         //}
       }
       if( pflanzenart.toLowerCase().equals("weizen") )
       {
-         //for( int i = meinePflanzen.size(); i < Spezifikationen.Feld.getMaximaleFeldGroesse(); i++ )
-         //{
          meinePflanzen.add(new Weizen(zufallshoehe));
-         //}
       }
       return meinePflanzen;
    }
@@ -42,9 +36,9 @@ public class SaeMaschine implements Automat
    {
       if( !PflanzenKontrolle.hatFeldMaxErreicht(meinePflanzen) )
       {
-         int maxfeldgroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();
-         int aktfeldgroesse = meinePflanzen.size();
-         int differenz = maxfeldgroesse - aktfeldgroesse;
+         int maxFeldGroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();
+         int aktuelleFeldGroesse = meinePflanzen.size();
+         int differenz = maxFeldGroesse - aktuelleFeldGroesse;
 
          for( int i = 0; i < differenz; i++ )
          {

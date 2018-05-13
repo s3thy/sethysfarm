@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
-<GridPane id="gridpane_view" fx:id="gridpane_view" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1"
+<GridPane xmlns:fx="http://javafx.com/fxml/1" id="gridpane_view" fx:id="gridpane_view" xmlns="http://javafx.com/javafx/9.0.1"
           fx:controller="controller.ViewController">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0"/>

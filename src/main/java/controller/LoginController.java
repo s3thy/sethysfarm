@@ -6,6 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+/**
+ * LoginController.<br>
+ * Ubernimmt nur die Loginfunktion.<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class LoginController
 {
    @FXML

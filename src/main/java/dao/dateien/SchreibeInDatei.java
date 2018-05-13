@@ -12,6 +12,12 @@ import nutzpflanzen.Pflanze;
 
 import static dao.dateien.DateiConfig.datei;
 
+/**
+ * Schreiben der Farm Daten in eine CSV Datei.<br>
+ * Jeder Satz enthält eine fortlaufende Nummer, die Pflanzenart und die Hoehe.<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class SchreibeInDatei
 {
    public void schreibeCsv(List<Pflanze> meinePflanzen)

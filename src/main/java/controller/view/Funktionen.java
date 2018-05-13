@@ -9,6 +9,11 @@ import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
 
+/**
+ * Einige usgelagerte Methoden fuer den ViewController<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class Funktionen
 {
    public void openSQL()

@@ -12,10 +12,21 @@ import javafx.util.Duration;
 
 import static app.Main.primaryStage;
 
+/**
+ * Ausgelagerte Methoden fuer den LoginController.<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class Funktionen
 {
    int x = 0;
 
+   /**
+    * twerkStage() laesst bei Eingabe falscher Logindaten
+    * das Fenster als Hinweis "twerken".<br>
+    *
+    * @author sethy, sec@shd.de
+    */
    public void twerkStage()
    {
       Timeline timelineX = new Timeline(new KeyFrame(Duration.seconds(0.05), t -> {
@@ -36,14 +47,21 @@ public class Funktionen
       timelineX.play();
    }
 
+   /**
+    * logMeInOrNot() prueft zunaechst die eingegebenen Logindaten.<br>
+    * txt_pwd und txt_name kommen aus der LoginController-Klasse
+    * und werden hier ueberprueft.<br>
+    * Anschliessend wird bei erfolgreicher Ueberpruefung die "View" geoeffnet.<br>
+    *
+    * @param txt_pwd
+    * @param txt_name
+    * @author sethy, sec@shd.de
+    */
    public void logMeInOrNot(String txt_pwd, String txt_name)
    {
       if( txt_name.equals("") && txt_pwd.equals("") )
       {
-         // View mit BarChart
          FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/viewStats.fxml"));
-         // View mit Table
-         // FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/viewStatsTabelle.fxml"));
          Parent rootParent = null;
          try
          {
@@ -63,10 +81,6 @@ public class Funktionen
          // View mit BarChart
          ViewController viewController = loader.getController();
          viewController.init();
-
-         // View mit Table
-         // ViewControllerTabelle viewController = loader.getController();
-         // viewController.init();
       }
       else
       {

@@ -30,7 +30,7 @@ public class GiessMaschineTest
 
 
    @Test
-   public void arbeiten()
+   public void arbeitenTest()
    {
       new GiessMaschine().arbeiten(maisTestFeld);
       for( Pflanze maiskolben : maisTestFeld )

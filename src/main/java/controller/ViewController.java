@@ -29,6 +29,13 @@ import static app.ErstelleDaten.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
 import static funktionen.Werkzeuge.format;
 
+/**
+ * ViewController.<br>
+ * Hier weisen wir den Buttons Methoden und Funktionen zu.<br>
+ * Enthaelt Methoden fuer die Ein- un Ausgabe von Informationen uber die Farm.<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class ViewController
 {
    @FXML
@@ -49,7 +56,7 @@ public class ViewController
    public TextArea txt_anzahl;
    public TextArea txt_console;
 
-   List<Automat> kitchenAid = new ArrayList<Automat>();
+   List<Automat> johnDeere = new ArrayList<Automat>();
 
    Timer timer = null;
    TimerTask mytask = null;
@@ -58,6 +65,7 @@ public class ViewController
 
    public void init()
    {
+      // jeder Button bekommt eine Methode zugewiesen
       btn_ernten.setOnAction(this::erntePflanzen);
       btn_giessen.setOnAction(this::giessePflanzen);
       btn_saeen.setOnAction(this::saeePflanzen);
@@ -74,6 +82,8 @@ public class ViewController
       btn_opencsv.setOnAction(this::clickedOpenCsv);
       btn_savecsv.setOnAction(this::clickedSaveCsv);
 
+      // jetzt generieren wir Daten und speichern diese in eine Datei bzw.
+      // lesen die Datei aus, wenn bereits vorhanden
       if( !datei.exists() )
       {
          Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -109,9 +119,9 @@ public class ViewController
       clickedButton = "gesamt";
       btn_gesamt.getStyleClass().add("clicked");
 
-      kitchenAid.add(new SaeMaschine());
-      kitchenAid.add(new GiessMaschine());
-      kitchenAid.add(new ErnteMaschine());
+      johnDeere.add(new SaeMaschine());
+      johnDeere.add(new GiessMaschine());
+      johnDeere.add(new ErnteMaschine());
 
       refreshInfo();
    }
@@ -125,7 +135,6 @@ public class ViewController
       btn_gesamt.getStyleClass().remove("clicked");
 
       showStats();
-      // showMaisStats();
       refreshInfo();
    }
 
@@ -138,7 +147,6 @@ public class ViewController
       btn_gesamt.getStyleClass().remove("clicked");
 
       showStats();
-      // showWeizenStats();
       refreshInfo();
    }
 
@@ -151,7 +159,6 @@ public class ViewController
       btn_weizen.getStyleClass().remove("clicked");
 
       showStats();
-      //showGesamtStats();
       refreshInfo();
    }
 
@@ -183,36 +190,6 @@ public class ViewController
             break;
       }
    }
-
-   /*
-      private void showMaisStats()
-      {
-         if( maisFeld.size() != 0 )
-         {
-            fillBarChart("Mais");
-         }
-      }
-
-      private void showWeizenStats()
-      {
-         if( weizenFeld.size() != 0 )
-         {
-            fillBarChart("Weizen");
-         }
-      }
-
-      private void showGesamtStats()
-      {
-         if( weizenFeld.size() != 0 )
-         {
-            fillBarChart("Weizen");
-         }
-         if( maisFeld.size() != 0 )
-         {
-            fillBarChart("Mais");
-         }
-      }
-   */
 
    private void giessePflanzen(ActionEvent actionEvent)
    {
@@ -269,19 +246,15 @@ public class ViewController
       {
          case "mais":
             new ErnteMaschine().arbeiten(maisFeld);
-            //fillBarChart("Mais");
             break;
 
          case "weizen":
             new ErnteMaschine().arbeiten(weizenFeld);
-            //fillBarChart("Weizen");
             break;
 
          case "gesamt":
             new ErnteMaschine().arbeiten(maisFeld);
             new ErnteMaschine().arbeiten(weizenFeld);
-            //fillBarChart("Weizen");
-            //fillBarChart("Mais");
             break;
       }
       refreshInfo();
@@ -394,7 +367,7 @@ public class ViewController
 
                String clickedPflanzenart = "";
 
-               for( Automat automat : kitchenAid )
+               for( Automat automat : johnDeere )
                {
                   System.out.println(automat.getClass() + " wird ausgeführt");
 
@@ -436,8 +409,6 @@ public class ViewController
                         }
                   }
 
-                  // TODO
-                  // manipulate FX Node BarChart
                   txt_ausgabe.setText(getMyData("mais"));
                   txt_ausgabe1.setText(getMyData("weizen"));
                   txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: "

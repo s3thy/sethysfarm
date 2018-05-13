@@ -12,6 +12,12 @@ import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
 
+/**
+ * Ein Konsolen-Programm zum reinen Testen der Farm-Klassen und -Methoden
+ * unabhaengig von der GUI.<br>
+ *
+ * @author sethy, sec@shd.de
+ */
 public class ConsoleOut
 {
    public static void main(String[] args)

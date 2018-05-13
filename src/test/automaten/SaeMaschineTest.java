@@ -31,7 +31,7 @@ public class SaeMaschineTest
 
 
    @Test
-   public void arbeiten()
+   public void arbeitenTest()
    {
       new SaeMaschine().arbeiten(maisTestFeld, "mais");
       assertEquals(maisTestFeld.size(), 50);
