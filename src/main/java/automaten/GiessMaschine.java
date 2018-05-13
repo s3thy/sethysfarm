@@ -23,16 +23,16 @@ public class GiessMaschine implements Automat
    public void arbeiten(List<Pflanze> meinePflanzen)
    {
       //new Thread(() -> {
-         giessen(meinePflanzen);
+      giessen(meinePflanzen);
 
-         // fuehrt mit Threads zum Fehler: java.util.ConcurrentModificationException ???
-         for( Pflanze pflanze : meinePflanzen )
+      // fuehrt mit Threads zum Fehler: java.util.ConcurrentModificationException ???
+      for( Pflanze pflanze : meinePflanzen )
+      {
+         if( istErntbar(pflanze) )
          {
-            if( istErntbar(pflanze) )
-            {
-               System.out.println("Du kannst bereits Pflanzen ernten");
-            }
+            System.out.println("Du kannst bereits Pflanzen ernten");
          }
+      }
 
       //}).start();
    }

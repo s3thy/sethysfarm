@@ -27,7 +27,7 @@ public class ErnteMaschine implements Automat
    public void arbeiten(List<Pflanze> meinePflanzen)
    {
       // new Thread(() -> {
-         ernten(meinePflanzen);
+      ernten(meinePflanzen);
       // }).start();
    }
 

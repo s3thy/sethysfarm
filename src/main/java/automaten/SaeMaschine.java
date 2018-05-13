@@ -35,17 +35,17 @@ public class SaeMaschine implements Automat
    public void arbeiten(List<Pflanze> meinePflanzen, String pflanzenart)
    {
       //new Thread(() -> {
-         if( !PflanzenKontrolle.hatFeldMaxErreicht(meinePflanzen) )
-         {
-            int maxFeldGroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();
-            int aktuelleFeldGroesse = meinePflanzen.size();
-            int differenz = maxFeldGroesse - aktuelleFeldGroesse;
+      if( !PflanzenKontrolle.hatFeldMaxErreicht(meinePflanzen) )
+      {
+         int maxFeldGroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();
+         int aktuelleFeldGroesse = meinePflanzen.size();
+         int differenz = maxFeldGroesse - aktuelleFeldGroesse;
 
-            for( int i = 0; i < differenz; i++ )
-            {
-               saeen(meinePflanzen, pflanzenart);
-            }
+         for( int i = 0; i < differenz; i++ )
+         {
+            saeen(meinePflanzen, pflanzenart);
          }
+      }
       //}).start();
    }
 }

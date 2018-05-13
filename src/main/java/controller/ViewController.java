@@ -136,9 +136,9 @@ public class ViewController
       saveOnQuit();
    }
 
+   // Handling beim Beenden des View Fensters
    private void saveOnQuit()
    {
-      // Handling beim Beenden
       primaryStage.setOnCloseRequest(myMindowEvent -> {
          Alert alert = new Alert(Alert.AlertType.WARNING);
          alert.setTitle("Warning");
@@ -374,10 +374,10 @@ public class ViewController
       refreshInfo();
    }
 
+   // Laesst alle Automaten der Reihe nach laufen
+   // Btn gedrueckt halten, um Automaten in einem Loop laufen zu lassen
    private void starteAlleAutomaten(MouseEvent actionEvent)
    {
-      //barchart_ertraege.getData().clear();
-
       timer = new Timer(true);
 
       mytask = new TimerTask()
