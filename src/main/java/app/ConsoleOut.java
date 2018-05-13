@@ -26,8 +26,7 @@ import static dao.dateien.DateiConfig.datei;
 import static funktionen.Werkzeuge.format;
 
 /**
- * Ein Konsolen-Programm zum Testen der Farm-Klassen und -Methoden
- * unabhaengig von der GUI.<br>
+ * Ein Konsolen-Programm, welches nur zum Testen der Farm-Klassen und -Methoden ist.<br>
  *
  * @author sethy, sec@shd.de
  */
