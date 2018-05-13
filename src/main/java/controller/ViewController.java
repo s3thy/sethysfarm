@@ -14,6 +14,7 @@ import automaten.SaeMaschine;
 import controller.view.Funktionen;
 import dao.dateien.LeseAusDatei;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -21,10 +22,12 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.WindowEvent;
 import nutzpflanzen.Pflanze;
 
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
+import static app.Main.primaryStage;
 import static dao.dateien.DateiConfig.datei;
 import static funktionen.Werkzeuge.format;
 
@@ -126,6 +129,24 @@ public class ViewController
       johnDeere.add(new ErnteMaschine());
 
       refreshInfo();
+      saveOnQuit();
+   }
+
+   private void saveOnQuit()
+   {
+      // Handling beim Beenden
+      primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
+      {
+         public void handle(WindowEvent we)
+         {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Warnung");
+            alert.setHeaderText("OH OH!");
+            alert.setContentText("Änderungen werden jetzt in CSV übernommen");
+            alert.showAndWait();
+            new Funktionen().saveCSV();
+         }
+      });
    }
 
    private void clickedMais(ActionEvent actionEvent)
@@ -352,7 +373,6 @@ public class ViewController
       mytask = null;
       timer.cancel();
       timer = null;
-      new Funktionen().saveCSV();
    }
 
    private void starteAlleAutomaten(MouseEvent actionEvent)
