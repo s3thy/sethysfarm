@@ -18,7 +18,7 @@ import nutzpflanzen.Weizen;
  *
  * @author sethy, sec@shd.de
  */
-public class ErstelleDaten
+public class ErstelleFelder
 {
    static public List<Pflanze> maisFeld = new ArrayList();
    static public List<Pflanze> weizenFeld = new ArrayList();

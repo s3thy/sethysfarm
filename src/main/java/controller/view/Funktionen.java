@@ -5,8 +5,8 @@ import dao.dateien.SchreibeInDatei;
 import dao.datenbanken.SqlActions;
 import javafx.scene.control.Alert;
 
-import static app.ErstelleDaten.maisFeld;
-import static app.ErstelleDaten.weizenFeld;
+import static app.ErstelleFelder.maisFeld;
+import static app.ErstelleFelder.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
 
 /**

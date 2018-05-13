@@ -11,8 +11,8 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLSyntaxErrorException;
 import javafx.scene.control.Alert;
 import nutzpflanzen.Pflanze;
 
-import static app.ErstelleDaten.maisFeld;
-import static app.ErstelleDaten.weizenFeld;
+import static app.ErstelleFelder.maisFeld;
+import static app.ErstelleFelder.weizenFeld;
 
 /**
  * Schreiben und Lesen aus einer Datenbank.<br>

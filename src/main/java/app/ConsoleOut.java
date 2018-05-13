@@ -20,8 +20,8 @@ import nutzpflanzen.Mais;
 import nutzpflanzen.Pflanze;
 import nutzpflanzen.Weizen;
 
-import static app.ErstelleDaten.maisFeld;
-import static app.ErstelleDaten.weizenFeld;
+import static app.ErstelleFelder.maisFeld;
+import static app.ErstelleFelder.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
 import static funktionen.Werkzeuge.format;
 
@@ -50,7 +50,7 @@ public class ConsoleOut
       if( !datei.exists() )
       {
          System.out.println("Herje! Noch nichts da? Kein Problem, Du bekommst jetzt einfach mal was");
-         new ErstelleDaten().createFarm();
+         new ErstelleFelder().createFarm();
          saveCSV();
       }
       // Wenn JA, auslesen

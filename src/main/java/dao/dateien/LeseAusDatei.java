@@ -9,8 +9,8 @@ import javafx.scene.control.Alert;
 import nutzpflanzen.Mais;
 import nutzpflanzen.Weizen;
 
-import static app.ErstelleDaten.maisFeld;
-import static app.ErstelleDaten.weizenFeld;
+import static app.ErstelleFelder.maisFeld;
+import static app.ErstelleFelder.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
 
 /**

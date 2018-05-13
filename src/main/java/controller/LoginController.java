@@ -21,6 +21,7 @@ public class LoginController
    @FXML
    public TextField txt_name;
 
+
    public void init()
    {
       btn_login.setOnAction(Event -> new Funktionen().logMeInOrNot(txt_pwd.getText(), txt_name.getText()));

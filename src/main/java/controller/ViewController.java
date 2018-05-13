@@ -3,28 +3,32 @@ package controller;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import app.ErstelleDaten;
+import app.ErstelleFelder;
 import automaten.Automat;
 import automaten.ErnteMaschine;
 import automaten.GiessMaschine;
 import automaten.SaeMaschine;
 import controller.view.Funktionen;
 import dao.dateien.LeseAusDatei;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import nutzpflanzen.Pflanze;
 
-import static app.ErstelleDaten.maisFeld;
-import static app.ErstelleDaten.weizenFeld;
+import static app.ErstelleFelder.maisFeld;
+import static app.ErstelleFelder.weizenFeld;
 import static app.Main.primaryStage;
 import static dao.dateien.DateiConfig.datei;
 import static funktionen.Werkzeuge.format;
@@ -55,6 +59,7 @@ public class ViewController
    public TextArea txt_ausgabeWeizen;
    public TextArea txt_anzahl;
    public TextArea txt_console;
+   public PieChart piechart;
 
    List<Automat> johnDeere = new ArrayList<Automat>();
 
@@ -92,7 +97,7 @@ public class ViewController
          alert.setContentText("Pflanzen werden nun zufällig generiert");
          alert.showAndWait();
 
-         new ErstelleDaten().createFarm();
+         new ErstelleFelder().createFarm();
          System.out.println();
          System.out.println("Maisfeld hat " + maisFeld.size() + " Maiskölbchen");
          System.out.println("Weizenfeld hat " + weizenFeld.size() + " Weizendinger");
@@ -135,12 +140,25 @@ public class ViewController
    {
       // Handling beim Beenden
       primaryStage.setOnCloseRequest(myMindowEvent -> {
-         Alert alert = new Alert(Alert.AlertType.INFORMATION);
-         alert.setTitle("Warnung");
-         alert.setHeaderText("OH OH!");
-         alert.setContentText("Änderungen werden jetzt in CSV übernommen");
-         alert.showAndWait();
-         new Funktionen().saveCSV();
+         Alert alert = new Alert(Alert.AlertType.WARNING);
+         alert.setTitle("Warning");
+         alert.setHeaderText("Wurden Änderungen gespeichert?");
+         alert.setContentText("Bitte auswählen");
+
+         ButtonType yesButton = new ButtonType("Ja");
+         ButtonType noButton = new ButtonType("Nein");
+
+         alert.getButtonTypes().setAll(yesButton, noButton);
+
+         Optional<ButtonType> result = alert.showAndWait();
+         if( result.get() == yesButton )
+         {
+            Platform.exit();
+         }
+         else if( result.get() == noButton )
+         {
+            myMindowEvent.consume();
+         }
       });
    }
 
@@ -358,7 +376,7 @@ public class ViewController
 
    private void starteAlleAutomaten(MouseEvent actionEvent)
    {
-      barchart_ertraege.getData().clear();
+      //barchart_ertraege.getData().clear();
 
       timer = new Timer(true);
 

@@ -53,7 +53,7 @@ public class Funktionen
     * und werden hier ueberprueft.<br>
     * Anschliessend wird bei erfolgreicher Ueberpruefung die "View" geoeffnet.<br>
     *
-    * @param txt_pwd Passwort als String
+    * @param txt_pwd  Passwort als String
     * @param txt_name Name als String
     * @author sethy, sec@shd.de
     */
