@@ -118,6 +118,10 @@ public class SqlActions
             ps.setDouble(3, pflanze.getHoehe());
             int rowOfTable = ps.executeUpdate();
          }
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         alert.setTitle("DAO");
+         alert.setHeaderText("Schreibe in SQL Tabelle");
+         alert.showAndWait();
       }
       catch(Exception e1)
       {
@@ -152,9 +156,6 @@ public class SqlActions
          statement = myConn.createStatement();
          rs = statement.executeQuery("select * from SethysFarm.meinePflanzen");
 
-         maisFeld.clear();
-         weizenFeld.clear();
-
          while( rs.next() )
          {
 
@@ -171,6 +172,10 @@ public class SqlActions
                weizenFeld.add(new Weizen(h));
             }
          }
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         alert.setTitle("DAO");
+         alert.setHeaderText("Lese aus SQL Tabelle");
+         alert.showAndWait();
       }
       catch(CommunicationsException e)
       {

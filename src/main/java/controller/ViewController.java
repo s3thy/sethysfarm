@@ -143,7 +143,6 @@ public class ViewController
    private void clickedSaveSql(ActionEvent actionEvent)
    {
       new Funktionen().saveSQL();
-      System.out.println("click");
    }
 
    // Handling beim Beenden des View Fensters
@@ -265,6 +264,11 @@ public class ViewController
    private void clickedOpenCsv(ActionEvent actionEvent)
    {
       new Funktionen().openCSV();
+      new Funktionen().saveCSV();
+      Alert alert = new Alert(Alert.AlertType.INFORMATION);
+      alert.setTitle("DAO");
+      alert.setHeaderText("Lese aus CSV-Datei");
+      alert.showAndWait();
       refreshInfo();
    }
 

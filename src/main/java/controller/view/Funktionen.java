@@ -18,20 +18,14 @@ public class Funktionen
 {
    public void openSQL()
    {
+      maisFeld.clear();
+      weizenFeld.clear();
       new SqlActions().readSQL();
-      Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.setTitle("DAO");
-      alert.setHeaderText("Lese aus SQL Tabelle");
-      alert.showAndWait();
    }
 
    public void saveSQL()
    {
       new SqlActions().writeSQL();
-      Alert alert = new Alert(Alert.AlertType.INFORMATION);
-      alert.setTitle("DAO");
-      alert.setHeaderText("Schreibe in SQL Tabelle");
-      alert.showAndWait();
    }
 
    public void openCSV()
