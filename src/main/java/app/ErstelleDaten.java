@@ -20,7 +20,6 @@ import nutzpflanzen.Weizen;
  */
 public class ErstelleDaten
 {
-
    static public List<Pflanze> maisFeld = new ArrayList();
    static public List<Pflanze> weizenFeld = new ArrayList();
    int feldgroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();

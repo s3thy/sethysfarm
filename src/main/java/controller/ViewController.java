@@ -14,7 +14,6 @@ import automaten.SaeMaschine;
 import controller.view.Funktionen;
 import dao.dateien.LeseAusDatei;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
@@ -22,7 +21,6 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.WindowEvent;
 import nutzpflanzen.Pflanze;
 
 import static app.ErstelleDaten.maisFeld;
@@ -34,6 +32,7 @@ import static funktionen.Werkzeuge.format;
 /**
  * ViewController.<br>
  * Hier weisen wir den Buttons Methoden und Funktionen zu.<br>
+ * Funktionen einzelner Methoden sind hier definiert.<br>
  *
  * @author sethy, sec@shd.de
  */
@@ -52,8 +51,8 @@ public class ViewController
    public Button btn_savecsv;
    public Button btn_savesql;
    public BarChart<String, Double> barchart_ertraege;
-   public TextArea txt_ausgabe;
-   public TextArea txt_ausgabe1;
+   public TextArea txt_ausgabeMais;
+   public TextArea txt_ausgabeWeizen;
    public TextArea txt_anzahl;
    public TextArea txt_console;
 
@@ -135,17 +134,13 @@ public class ViewController
    private void saveOnQuit()
    {
       // Handling beim Beenden
-      primaryStage.setOnCloseRequest(new EventHandler<WindowEvent>()
-      {
-         public void handle(WindowEvent we)
-         {
-            Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("Warnung");
-            alert.setHeaderText("OH OH!");
-            alert.setContentText("Änderungen werden jetzt in CSV übernommen");
-            alert.showAndWait();
-            new Funktionen().saveCSV();
-         }
+      primaryStage.setOnCloseRequest(myMindowEvent -> {
+         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+         alert.setTitle("Warnung");
+         alert.setHeaderText("OH OH!");
+         alert.setContentText("Änderungen werden jetzt in CSV übernommen");
+         alert.showAndWait();
+         new Funktionen().saveCSV();
       });
    }
 
@@ -185,35 +180,6 @@ public class ViewController
       refreshInfo();
    }
 
-   private void showStats()
-   {
-      switch( clickedButton )
-      {
-         case "mais":
-            if( maisFeld.size() != 0 )
-            {
-               fillBarChart("Mais");
-            }
-            break;
-         case "weizen":
-            if( weizenFeld.size() != 0 )
-            {
-               fillBarChart("Weizen");
-            }
-            break;
-         case "gesamt":
-            if( weizenFeld.size() != 0 )
-            {
-               fillBarChart("Weizen");
-            }
-            if( maisFeld.size() != 0 )
-            {
-               fillBarChart("Mais");
-            }
-            break;
-      }
-   }
-
    private void giessePflanzen(ActionEvent actionEvent)
    {
       switch( clickedButton )
@@ -234,27 +200,14 @@ public class ViewController
 
    private void saeePflanzen(ActionEvent actionEvent)
    {
-      /*
-      if( (maisFeld.size() == Spezifikationen.Feld.getMaximaleFeldGroesse()) || (weizenFeld.size() == Spezifikationen.Feld
-            .getMaximaleFeldGroesse()) )
-      {
-         Alert alert = new Alert(Alert.AlertType.ERROR);
-         alert.setTitle("ERROR");
-         alert.setHeaderText(clickedButton + "-feld(er) haben keinen Platz mehr");
-         alert.setContentText("Maximalgröße beträgt " + Spezifikationen.Feld.getMaximaleFeldGroesse());
-         alert.showAndWait();
-      }
-      */
       switch( clickedButton )
       {
          case "mais":
             new SaeMaschine().arbeiten(maisFeld, "mais");
             break;
-
          case "weizen":
             new SaeMaschine().arbeiten(weizenFeld, "weizen");
             break;
-
          case "gesamt":
             new SaeMaschine().arbeiten(maisFeld, "mais");
             new SaeMaschine().arbeiten(weizenFeld, "weizen");
@@ -270,11 +223,9 @@ public class ViewController
          case "mais":
             new ErnteMaschine().arbeiten(maisFeld);
             break;
-
          case "weizen":
             new ErnteMaschine().arbeiten(weizenFeld);
             break;
-
          case "gesamt":
             new ErnteMaschine().arbeiten(maisFeld);
             new ErnteMaschine().arbeiten(weizenFeld);
@@ -343,6 +294,35 @@ public class ViewController
       return sb.toString();
    }
 
+   private void showStats()
+   {
+      switch( clickedButton )
+      {
+         case "mais":
+            if( maisFeld.size() != 0 )
+            {
+               fillBarChart("Mais");
+            }
+            break;
+         case "weizen":
+            if( weizenFeld.size() != 0 )
+            {
+               fillBarChart("Weizen");
+            }
+            break;
+         case "gesamt":
+            if( weizenFeld.size() != 0 )
+            {
+               fillBarChart("Weizen");
+            }
+            if( maisFeld.size() != 0 )
+            {
+               fillBarChart("Mais");
+            }
+            break;
+      }
+   }
+
    public void refreshInfo()
    {
       barchart_ertraege.getData().clear();
@@ -359,8 +339,8 @@ public class ViewController
             fillBarChart("Weizen");
             break;
       }
-      txt_ausgabe.setText(getMyData("mais"));
-      txt_ausgabe1.setText(getMyData("weizen"));
+      txt_ausgabeMais.setText(getMyData("mais"));
+      txt_ausgabeWeizen.setText(getMyData("weizen"));
       txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: "
                          + String.valueOf(weizenFeld.size()
                                           + " gesamt: "
@@ -373,6 +353,7 @@ public class ViewController
       mytask = null;
       timer.cancel();
       timer = null;
+      refreshInfo();
    }
 
    private void starteAlleAutomaten(MouseEvent actionEvent)
@@ -411,7 +392,6 @@ public class ViewController
                            automat.arbeiten(maisFeld);
                         }
                         break;
-
                      case "weizen":
                         clickedPflanzenart = "weizen";
                         if( automat instanceof SaeMaschine )
@@ -434,10 +414,10 @@ public class ViewController
                            automat.arbeiten(maisFeld);
                            automat.arbeiten(weizenFeld);
                         }
+                        break;
                   }
-
-                  txt_ausgabe.setText(getMyData("mais"));
-                  txt_ausgabe1.setText(getMyData("weizen"));
+                  txt_ausgabeMais.setText(getMyData("mais"));
+                  txt_ausgabeWeizen.setText(getMyData("weizen"));
                   txt_anzahl.setText("mais: " + String.valueOf(maisFeld.size()) + " weizen: "
                                      + String.valueOf(weizenFeld.size()
                                                       + " gesamt: "

@@ -10,7 +10,6 @@ public class ErnteMaschine implements Automat
 {
    private List<Pflanze> ernten(List<Pflanze> meinePflanzen)
    {
-
       List<Pflanze> meineErnte = new ArrayList();
 
       for( Pflanze pflanze : meinePflanzen )
@@ -21,15 +20,15 @@ public class ErnteMaschine implements Automat
          }
       }
       meinePflanzen.removeAll(meineErnte);
-
       return meinePflanzen;
    }
-
 
    @Override
    public void arbeiten(List<Pflanze> meinePflanzen)
    {
-      ernten(meinePflanzen);
+      // new Thread(() -> {
+         ernten(meinePflanzen);
+      // }).start();
    }
 
    @Override

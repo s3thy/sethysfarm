@@ -53,8 +53,8 @@ public class Funktionen
     * und werden hier ueberprueft.<br>
     * Anschliessend wird bei erfolgreicher Ueberpruefung die "View" geoeffnet.<br>
     *
-    * @param txt_pwd
-    * @param txt_name
+    * @param txt_pwd Passwort als String
+    * @param txt_name Name als String
     * @author sethy, sec@shd.de
     */
    public void logMeInOrNot(String txt_pwd, String txt_name)

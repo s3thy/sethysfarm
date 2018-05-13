@@ -34,6 +34,7 @@ public class SaeMaschine implements Automat
    @Override
    public void arbeiten(List<Pflanze> meinePflanzen, String pflanzenart)
    {
+      //new Thread(() -> {
          if( !PflanzenKontrolle.hatFeldMaxErreicht(meinePflanzen) )
          {
             int maxFeldGroesse = Spezifikationen.Feld.getMaximaleFeldGroesse();
@@ -45,5 +46,6 @@ public class SaeMaschine implements Automat
                saeen(meinePflanzen, pflanzenart);
             }
          }
+      //}).start();
    }
 }

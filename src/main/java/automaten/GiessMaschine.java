@@ -22,8 +22,10 @@ public class GiessMaschine implements Automat
    @Override
    public void arbeiten(List<Pflanze> meinePflanzen)
    {
+      //new Thread(() -> {
          giessen(meinePflanzen);
 
+         // fuehrt mit Threads zum Fehler: java.util.ConcurrentModificationException ???
          for( Pflanze pflanze : meinePflanzen )
          {
             if( istErntbar(pflanze) )
@@ -31,6 +33,8 @@ public class GiessMaschine implements Automat
                System.out.println("Du kannst bereits Pflanzen ernten");
             }
          }
+
+      //}).start();
    }
 
    @Override

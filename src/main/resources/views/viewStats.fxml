@@ -125,8 +125,8 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
             </rowConstraints>
             <children>
-                <TextArea fx:id="txt_ausgabe" editable="false" prefHeight="200.0" prefWidth="100.0" promptText="Ausgabe für Mais"/>
-                <TextArea fx:id="txt_ausgabe1" editable="false" prefHeight="200.0" prefWidth="100.0" promptText="Ausgabe für Weizen"
+                <TextArea fx:id="txt_ausgabeMais" editable="false" prefHeight="200.0" prefWidth="100.0" promptText="Ausgabe für Mais"/>
+                <TextArea fx:id="txt_ausgabeWeizen" editable="false" prefHeight="200.0" prefWidth="100.0" promptText="Ausgabe für Weizen"
                           GridPane.columnIndex="1"/>
                 <TextArea fx:id="txt_anzahl" editable="false" prefHeight="200.0" prefWidth="100.0" promptText="Anzahl der Pflanzen"
                           GridPane.rowIndex="1"/>
