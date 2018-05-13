@@ -12,7 +12,6 @@ import nutzpflanzen.Weizen;
 import static app.ErstelleDaten.maisFeld;
 import static app.ErstelleDaten.weizenFeld;
 import static dao.dateien.DateiConfig.datei;
-import static funktionen.Werkzeuge.format;
 
 /**
  * Auslesen der Farm Daten aus einer CSV Datei.<br>
